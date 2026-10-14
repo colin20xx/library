@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <style>
+        .sidebar {
+            position: fixed; /* Fixes the menu in place */
+            top: 0;
+            left: 0;
+            height: 100vh; /* Makes the sidebar the full height of the viewport */
+            width: 200px; /* Set a desired width */
+            background-color: #f8f9fa; /* Optional: adds a background color */
+            padding-top: 20px;
+        }
+        .sidebar a:hover{
+            background-color: #6c757d;
+            color: #e9ecef;
+        }
+
+        .content {
+            margin-left: 200px; /* Adds a margin to your content so it doesn't overlap the sidebar */
+            padding: 20px;
+        }
+        /*-----------------------------------------------------------------------------------[ table with fixed header ]------*/
+        .table-container {
+            /* Set a maximum height to enable vertical scrolling */
+            max-height: 250px;
+            /* Enable scrolling (both vertical and horizontal if needed) */
+            overflow: auto;
+            /* Optional: Add a border for clarity */
+            border: 1px solid #ccc;
+        }
+
+        table {
+            /* Ensure the table takes full width of the container */
+            width: 100%;
+            /* Optional: better control over borders */
+            border-collapse: collapse;
+        }
+
+        th, td {
+            /* Optional: basic styling */
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+        }
+
+        .table-container thead th {
+            /* The key property: position the header cells sticky */
+            position: sticky;
+            /* Stick to the top of the scrolling container */
+            top: 0;
+            /* Ensure the header is above the body content when scrolling */
+            z-index: 2;
+            /* Set a background color so content doesn't show through */
+            background-color: #f7f7f7;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
+    <div class="container-fluid">
+        <!--        <a class="navbar-brand" href="#">Navbar</a>-->
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"> <a class="nav-link active" aria-current="page" href="#">home</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/arrivals">надходження</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/deliveries">видача</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/settings">налаштування</a> </li>
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+                <!--                </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="sidebar">
+    <nav class="nav flex-column">
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="#">Contact</a>
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="#">Contact</a>
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="#">Contact</a>
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="#">Contact</a>
+    </nav>
+</div>
+
+<div class="content"> <!-------------------------------------------------------------------------[ content ]----------->
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Header 1</th>
+                <th>Header 2</th>
+                <!-- more headers -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr> <td>Data A1</td> <td>Data A2</td>  </tr>
+            <tr> <td>Data A1</td> <td>Data A2</td>  </tr>
+            <tr> <td>Data A1</td> <td>Data A2</td>  </tr>
+            <tr> <td>Data A1</td> <td>Data A2</td>  </tr>
+            <tr> <td>Data A1</td> <td>Data A2</td>  </tr>
+            <tr> <td>Data A1</td> <td>Data A2</td>  </tr>
+            <tr> <td>Data A1</td> <td>Data A2</td>  </tr>
+            <tr> <td>Data A1</td> <td>Data A2</td>  </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+</body>
+</html>

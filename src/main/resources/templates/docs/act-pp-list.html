@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>список апп</title>
+  <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+</head>
+
+<body data-page="app-list-page">
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<div th:replace="~{fragments/fragment-modal-global :: global-div-form}"></div>
+
+
+
+<div class="container-fluid border border-dark bg-light p-2">
+    <input id="doc_type" type="hidden" value="акт прийому передачі">
+
+<!--  <form class="form-floating">-->
+<!--    <input type="text" class="form-control" id="floatingInputValue00" placeholder=" " value=" ">-->
+<!--    <label for="floatingInputValue00">номер:</label>-->
+<!--  </form>-->
+
+<!--  <form class="form-floating">-->
+<!--    <input type="text" class="form-control" id="floatingInputValue01" placeholder=" " value=" ">-->
+<!--    <label for="floatingInputValue01">номер:</label>-->
+<!--  </form>-->
+
+    <input class="searchField" id="field_search_app_number" type="text" placeholder="номер">
+    <input class="searchField" id="field_search_app_sender" type="text" placeholder="вантажовідправник">
+    <input class="searchField" id="field_search_app_receiver" type="text" placeholder="вантажоодержувач">
+    <input class="searchField" id="field_search_card_number" type="text" placeholder="картка">
+    <input type="hidden" id="field_search_url" value="/akt-accept-transfer/search">
+    <button onclick="clearSearchFields()">очистити</button>
+</div>
+
+
+<div class="input-group d-flex m-2">
+  <button class="btn btn-outline-secondary" onclick="showModalCommonDivNewForm(this)">новий апп</button>
+  <span class="input-group-text border-secondary" th:text="${'кількість документів: ' + app_list.size()}"></span>
+</div>
+
+<div th:replace="~{fragments/fr-modal-new-app-form.html :: modalDivNewAPP(${new_app},${dep_list},'Акт приймання-передачі')}"></div>
+
+<!-- ----------------------------------------------------------------------------------------------------[ APPs list ]---------- -->
+  <div class="container-fluid">
+    <table class="table table-bordered table-hover small">
+      <thead class="table-info">
+        <tr>
+          <th style="width: 70px; text-align: center">№ з/п</th>
+          <th style="width: 100px; text-align: center">номер</th>
+          <th style="width: 100px; text-align: center">дата</th>
+          <th>вантажовідправник</th>
+          <th>вантажоотримувач</th>
+          <th style="width: 150px; text-align: center">примітка</th>
+          <th style="width: 150px; text-align: center">проведено</th>
+          <th style="width: 50px; text-align: center">PDF</th>
+          <th style="width: 50px; text-align: center">XLS</th>
+
+        </tr>
+      </thead>
+
+      <tbody id="tableBodyList">
+      <tr th:each="app, stat: ${app_list}" th:class="${app.commitedDate == null ? 'tr-not-commited' : ''}">
+        <td th:text="${stat.index + 1}" style="text-align: center"></td>
+        <td> <a th:href="${'/akt-accept-transfer/' + app.id}" th:text="${app.number}" class="link-primary link-offset-2 p-0 m-0 text-center"></a> </td>
+        <td th:text="${#dates.format(app.date,'dd.MM.YYYY')}" style="text-align: center"></td>
+        <td th:text="${app.sender}"></td>
+        <td th:text="${app.receiver}"></td>
+        <td th:text="${app.comments}"> </td>
+        <td class="text-center">
+          <span th:if="${app.commitedDate != null}" th:text="${#dates.format(app.commitedDate, 'dd.MM.yyyy HH:mm')}" style="font-size: 1em"></span>
+          <span th:unless="${app.commitedDate}" style="font-size: 1.5em">&#11198;</span>
+        </td>
+
+        <td style="padding: 0; text-align: center; vertical-align: middle">
+          <a th:if="${app.pdfName != null}" href="#" style="font-size: 1.5em">&#11015;</a>
+          <span th:unless="${app.pdfName}" style="font-size: 1.5em">&#11198;</span>
+        </td>
+        <td style="padding: 0; text-align: center; vertical-align: middle"> <a href="#" style="font-size: 1.5em;"> &#11015; </a> </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+</body>
+</html>

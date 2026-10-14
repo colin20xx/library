@@ -1,0 +1,141 @@
+    <div th:fragment="div-modal-new-atc(new_atc, dep_list_json, id_doc_type)">
+<!--    <div th:fragment="div-modal-new-atc">-->
+
+      <div class="modal-header bg-primary text-white p-2">
+        <h5 class="modal-title">Акт технічного стану</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form th:action="@{/atc/save}" th:object="${new_atc}" method="post">
+        <div class="modal-body">
+            <input type="hidden" id="id_doc_type" th:field="*{documentsType}">
+          <div class="row g-3">
+
+            <div class="col-md-3 p-1">
+
+              <label for="doc_num" class="col-form-label-sm">номер документа:</label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" id="doc_num" th:field="*{number}" oninput="checkDocNumber(this)">
+    <!--            id="btn_last_invoice_num"  -->
+                  <button  class="btn btn-outline-secondary" type="button" onclick="getDocsLastNumber(this)">&#8470</button>
+              </div>
+            </div>
+
+            <div class="col-md-3 p-1"><div>
+              <label for="data_doc" class="col-form-label-sm">дата документа:</label>
+              <input type="datetime-local" id="data_doc" class="form-control" th:field="*{documentDate}">
+
+              <script>
+                // flatpickr("#data_doc", {
+                //   enableTime: true, time_24hr: true, dateFormat: "d.m.Y H:i", defaultDate: new Date(),
+                //   onChange: function (selectedDates, dateStr, instance) {
+                //     document.getElementById('data_doc_oper').value = dateStr;
+                //     let date = new Date(selectedDates[0]);
+                //     date.setDate(date.getDate() + 3);
+                //     let day = String(date.getDate()).padStart(2,'0');
+                //     let month = String(date.getMonth()+1).padStart(2,'0');
+                //     let year = String(date.getFullYear());
+                //     let hour = String(date.getHours()).padStart(2,'0');
+                //     let minutes = String(date.getMinutes()).padStart(2,'0');
+                //
+                //     document.getElementById('data_doc_during').value = `${day}.${month}.${year} ${hour}:${minutes}`
+                //   }
+                // });
+              </script>
+            </div></div>
+
+            <div class="col-md-3 p-1"><div>
+              <label for="data_doc_oper" class="col-form-label-sm">дата операції:</label>
+              <input type="text" id="data_doc_oper" class="form-control" th:field="*{operationDate}">
+            </div></div>
+
+            <div class="col-md-3 p-1"><div>
+              <label for="data_doc_oper" class="col-form-label-sm">дата дійсний до:</label>
+              <input type="text" id="data_doc_during" class="form-control" th:field="*{expiresAt}">
+            </div></div>
+          </div>
+
+
+          <div class="row g-3">
+            <div class="col-md-6 p-1">
+
+              <div id="popupData" th:data-deps-list="${dep_list_json}"> </div>
+
+    <!--          <script th:inline="javascript"> window.departList = /*[[${dep_list}]]*/ []; console.log("departList:", departList); </script>-->
+    <!--          <script th:inline="javascript"> window.departList = JSON.parse([[${dep_list_json}]]); </script>-->
+
+
+
+              <label class="col-form-label-sm" for="sender_page">вантажовідправник:</label>
+    <!--          <script> $(document).ready(function () { $('#sender_page').select2( {width:'70%'} ); }); </script>-->
+              <div class="input-group">
+    <!--            onchange="getRespPersone(this, sender_name, departList)"-->
+                <select id="sender_page" name="sender_ids">
+                  <option value=" "></option>
+                  <option
+                          th:each="dep : ${dep_list}"
+                          th:value="${dep.getIdDep() + '_' + (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                          th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '')}"
+                          th:data-dep = "${dep.depsShortName}"
+                          th:data-subdep = "${(dep.subDepsShortName != null ? dep.subDepsShortName : '')}">
+                  </option>
+                </select>
+                <button type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, sender_page, '71_0')">П Склад</button>
+                <button type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, sender_page,'72_0')">Склад СНСО</button>
+              </div>
+
+              <div>
+                <label class="col-form-label-sm" for="sender_name">відповідальна особа:</label>
+                <input id="sender_name" type="text" class="form-control" th:field="*{responsiblePersonSender}" >
+              </div>
+            </div>
+
+            <div class="col-md-6 p-1">
+              <label class="col-form-label-sm" for="receiver_page">вантажоодержувач:</label>
+              <div class="input-group">
+                <select id="receiver_page" name="receiver_ids">
+                  <option value=" "></option>
+                  <option
+                          th:each="dep : ${dep_list}"
+                          th:value="${dep.getIdDep()+ '_'+  (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                          th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '') }"
+                          th:data-dep = "${dep.depsShortName}"
+                          th:data-subdep = "${(dep.subDepsShortName != null ? dep.subDepsShortName : '')}">
+                  </option>
+                </select>
+                <button id="btn_receiver_ps" type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, receiver_page, '71_0')">П Склад</button>
+                <button id="btn_receiver_bts" type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, receiver_page,'72_0')">Склад СНСО</button>
+              </div>
+
+
+              <label class="col-form-label-sm">відповідальна особа:</label>
+              <input id="receiver_name" type="text" class="form-control" th:field="*{responsiblePersonReceiver}">
+            </div>
+          </div>
+
+          <div class="row g-3">
+            <div class="col p-1">
+              <label class="col-form-label-sm" for="doc_comments">примітка:</label>
+              <input type="text" class="form-control" id="doc_comments" value="примітка" th:field="*{comments}">
+              <p></p>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="modal-footer justify-content-between">
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    не закривати поточну форму
+                </label>
+            </div>
+            <div>
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Відміна</button>
+              <button id="inputDocSubmit" class="btn btn-primary">Зберегти</button>
+            </div>
+        </div>
+      </form>
+    </div>

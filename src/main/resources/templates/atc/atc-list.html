@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>АТС список</title>
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+
+<!--    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet" href="../../static/css/styles.css">-->
+<!--    <link rel="stylesheet" href="../../static/css/flatpickr.min.css">-->
+<!--    <link rel="stylesheet" href="../../static/css/select2.min.css">-->
+<!--    <link rel="stylesheet" href="../../static/css/bootstrap-icons.min.css">-->
+<!--    <link rel="stylesheet" href="../../static/css/bootstrap-icons.css">-->
+
+
+<!--    <script src="../../static/js/bootstrap.bundle.min.js"> </script>-->
+<!--    <script src="../../static/js/jquery-4.0.0.min.js"> </script>-->
+<!--    <script src="../../static/js/script.js"> </script>-->
+<!--    <script src="../../static/js/flatpickr.min.js"> </script>-->
+<!--    <script src="../../static/js/select2.min.js"> </script>-->
+
+    <style>
+        /* 1. The Scroll Container */
+        .table-container {
+            max-height: 600px;    /* Limits the height to trigger vertical scroll */
+            overflow-y: scroll;     /* Adds vertical scrollbar when content overflows */
+            overflow-x: auto;     /* Adds horizontal scrollbar for responsive layout */
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+
+        /* 2. Base Table Styling */
+        .sticky-table {
+            width: 100%;
+            border-collapse: collapse; /* Prevents double borders */
+            font-family: sans-serif;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        /* 3. The Sticky Header Rule (Crucial Part) */
+        .sticky-table thead th {
+            position: sticky;
+            top: 0;               /* Pins the header to the top of the container */
+            background-color: #1f2937; /* Required: masks body text scrolling beneath */
+            color: #ffffff;
+            z-index: 1;           /* Ensures header stays on top layer */
+            padding: 12px 16px;
+        }
+
+        /* Body Row Styling */
+        .sticky-table tbody td {
+            /*padding: 12px 16px;*/
+            border-bottom: 1px solid #e5e7eb;
+            color: #374151;
+            vertical-align: top;
+        }
+
+        .scrollable-table tbody tr:hover {
+            background-color: #f5f5f5; /* Change to your preferred hover color */
+        }
+
+        /* Zebra striping for better readability */
+        /*.sticky-table tbody tr:nth-child(even) {*/
+        /*    background-color: #f9fafb;*/
+        /*    padding: 0;*/
+        /*}*/
+    </style>
+</head>
+
+<body data-page="atc-common-list">
+    <nav th:replace="~{fragments.html :: main_menu}"> </nav>
+    <div th:replace="~{fragments/fragment-modal-global :: global-div-form}"></div>
+
+
+    <div class="container-fluid border border-dark bg-info p-2">
+        <input id="doc_type" type="text" value="Акт технічного стану">
+        <input id="field_search_app_number" type="text" class="searchField" placeholder="номер">
+        <input id="field_search_app_sender" type="text" class="searchField" placeholder="вантажовідправник">
+        <input id="field_search_app_receiver" type="text" class="searchField" placeholder="вантажоодержувач">
+        <input id="field_search_card_number" type="text" class="searchField" placeholder="картка">
+        <input type="hidden" id="field_search_url" value="/atc/search">
+    </div>
+
+
+
+    <div style="border: 1px solid #052c65; width: 100%; height: 100%; background-color: #f7f7ff; margin-top: 1px; padding: 5px; display: flex; gap: 10px">
+
+        <div class="input-group d-flex">
+            <button class="btn btn-outline-secondary btn-sm" th:data-url="@{/atc/new-atc-form-popup}" onclick="showModalDiv(this)">+ АТС</button>
+            <span class="input-group-text" th:text="${'документів: ' + totalElements}"></span>
+            <span class="input-group-text" th:text="${'сторінок: ' + totalPages}"></span>
+        </div>
+
+        <nav aria-label="Page navigation example">
+
+            <ul class="pagination m-0 gap-1" style="width: 340px;">
+
+                <li class="page-item"> <a class="page-link"
+                                            th:href="@{/atc/list(page=${atc_list.number - 1}, size=${atc_list.size})}"
+                                            th:classappend="${!atc_list.hasPrevious()} ? 'disabled' : 'null'"
+                                            th:attr="tabindex=${!atc_list.hasPrevious()} ? '-1' : 'null'"> < </a> </li>
+
+<!--                <li class="page-item"> <a class="page-link" th:href="@{/atc/list(page=2, size=${atc_list.size})}" th:classappend="${atc_list.number == 2} ? 'active'">3</a></li>-->
+                <!-----------------------------------------------------------------------------------[ simple links ]-->
+
+<!--                <li class="page-item" th:if="${totalPages > 1}" th:each="p: ${#numbers.sequence(startPage, endPage)}">-->
+<!--                    <a class="page-link"-->
+<!--                       th:href="@{/atc/list(page=${p}, size=${atc_list.size})}" th:classappend="${atc_list.number == p} ? 'active'" th:text="${p + 1}" ></a>-->
+<!--                </li>-->
+
+                <!-------------------------------------------------------------------------------[ links with fetch ]-->
+
+                                <li class="page-item" th:if="${totalPages > 1}" th:each="p: ${#numbers.sequence(startPage, endPage)}">
+                                    <a class="page-link"
+                                       th:href="@{/atc/list(page=${p}, size=${atc_list.size})}"
+                                       th:classappend="${atc_list.number == p} ? 'active'"
+                                       th:text="${p + 1}" ></a>
+                                </li>
+
+
+
+                <li class="page-item"> <a class="page-link"
+                                          th:href="@{/atc/list(page=${atc_list.number + 1}, size=${atc_list.size})}"
+                                          th:classappend="${!atc_list.hasNext()} ? 'disabled' : 'null'"
+                                          th:attr="tabindex=${!atc_list.hasNext()} ? '-1' : 'null'"> &gt; </a> </li>
+
+            </ul>
+        </nav>
+    </div>
+
+    <div class="table-container">
+        <table class="sticky-table">
+            <thead>
+            <tr>
+                <th style="width: 50px">№</th>
+                <th style="width: 100px">номер</th>
+                <th style="width: 100px">дата</th>
+                <th>вантажовідправник</th>
+                <th>вантажоодержувач</th>
+                <th style="width: 100px">проведений</th>
+                <th>примітка</th>
+                <th style="width: 200px">дії</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="atc, stat: ${atc_list}" th:id="${'row-' + atc.id}">
+                    <td th:text="${atc_list.number * atc_list.size + stat.index + 1 + ':' + atc.id} "></td>
+                    <td> <a th:href="${'/atc/' + atc.id}" th:text="${atc.number}"> </a> </td>
+<!--                            th:class="${atc.dateCommit != null ? 'link-primary text-decoration-underline link-offset-2 bg-success-subtle m-0' : 'link-primary text-decoration-underline link-offset-2 bg-warning-subtle m-0'}" -->
+
+                    <td th:text="${#dates.format(atc.dateDocument, 'dd.MM.yyyy')}"></td>
+                    <td th:text="${atc.sender}"></td>
+                    <td th:text="${atc.receiver}"></td>
+                    <td th:text="${atc.dateCommit  != null ? #dates.format(atc.dateCommit, 'dd.MM.yyyy')  : '-'}"></td>
+                    <td th:text="${atc.comment}"></td>
+                    <td style="border-left: 1px solid; padding: 5px">
+                        <div class="input-group w-100">
+                            <button class="btn btn-outline-secondary btn-sm m-0" th:data-url="@{/atc/{id}(id=${atc.id})}"
+                                    th:data-redir-url="@{/atc/list}"
+                                    onclick="">&#9998;</button>
+                            <button class="btn btn-outline-danger btn-sm m-0" th:data-url="@{/atc/{id}(id=${atc.id})}"
+                                    th:data-redir-url="@{/atc/list}"
+                                    onclick="deleteItem(this)">X</button>
+                            <button class="btn btn-outline-danger btn-sm m-0" th:data-url="@{/atc/{id}(id=${atc.id})}"
+                                    th:data-redir-url="@{/atc/list}"
+                                    onclick="deleteItem(this)" disabled>PDF</button>
+                            <button class="btn btn-outline-success btn-sm m-0" th:data-url="@{/atc/{id}(id=${atc.id})}"
+                                    th:data-redir-url="@{/atc/list}"
+                                    onclick="deleteItem(this)" disabled>XLS</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<hr>
+    <div th:replace="~{fragments/fragment-pagination :: atcListTableFragment}"></div>
+
+</body>
+</html>

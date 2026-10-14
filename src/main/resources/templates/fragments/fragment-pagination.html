@@ -1,0 +1,38 @@
+
+<!--------------------------------------------------------------------------------------------------[ atc-container ]-->
+<div th:fragment="atcListTableFragment" id="atc-container">
+
+    <div id="pagination">
+
+        <nav aria-label="pagination_atc">
+            <ul class="pagination justify-content-end">
+                <li th:each="page : ${#numbers.sequence(0, atc_list.totalPages - 1)}" class="page-item">
+                    <a class="page-link" th:href="@{/atc/list(page=${page})}"
+                       th:data-page="${page}"
+                       th:text="${page + 1}"
+                       th:onclick="'loadPage(event, ' + ${page} + ')'">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <table class="table table-hover table-sm">
+        <thead class="bg-dark">
+        <tr>
+            <th style="width: 50px">№</th>
+            <th style="width: 100px">номер</th>
+            <th style="width: 100px">дата</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="atc, stat : ${atc_list}">
+            <td th:text="${atc_list.number * atc_list.size + stat.index + 1}"></td>
+            <td th:text="${atc.number}"></td>
+            <td th:text="${#dates.format(atc.dateDocument, 'dd.MM.yyyy')}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

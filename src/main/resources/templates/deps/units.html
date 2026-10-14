@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>майно підрозділів</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+</head>
+
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<div class="h-100">
+    <select name="dep" id="select_dep" class="form-select-sm flex-fill">
+        <option th:each="dep: ${departments}" th:value="${dep.id}" th:text="${dep.shortName}"></option>
+    </select>
+</div>
+
+
+<!--<select name="subdep" id="select_sub_dep" size="20">-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--    <option value="">1 МБ</option>-->
+<!--</select>-->
+</body>
+</html>

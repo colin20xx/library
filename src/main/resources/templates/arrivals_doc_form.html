@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/script.js"></script>
+
+    <style>
+        /*table.my-table-style{ border: 1px solid #6f42c1; width: 100%; border-collapse: collapse;}*/
+        /*table.my-table-style th{background-color: #6c757d; color:#f0f0f0; height: 40px}*/
+        /*table.my-table-style th, td{ border: 1px solid #6f42c1; }*/
+
+        div.div-panel{background-color: #6f42c1; display: flex}
+        div.div-panel button{flex-grow: 1; }
+        div.div-panel button:active{background-color: #6f42c1;}
+    </style>
+
+</head>
+<body>
+<!--class="my-table-style"-->
+<table class="table table-hover">
+    <thead>
+    <tr><th style="width: 50px">№ з/п</th> <th>скорочено</th> <th>повне найменування</th> <th>матеріально відповідальна особа</th> <th>активний</th> </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td> 1 </td> <td> 1 МБ  </td> <td> 1 МБ  </td> <td> матеріально відповідальна особа  </td>
+            <td class="p-0" style="height: 45px">
+                <div class="btn-group rounded-0 h-100 w-100" role="group" aria-label="Basic example">
+                    <button type="button" class="btn">&#9998;</button>
+                    <button type="button" class="btn">&#9989;</button>
+                    <button type="button" class="btn">&#128465;</button>
+                    <button type="button" class="btn">&#8657;</button>
+                    <button type="button" class="btn">&#8659;</button>
+                </div>
+
+            </td>
+        </tr>
+    </tbody>
+
+</table>
+
+
+<hr>
+
+<table class="table table-bordered w-75">
+    <thead>
+    <tr> <th rowspan="2">Номенклатура</th> <th rowspan="2">Загальна к-ть</th> <th colspan="4" style="text-align: center">ЗББР</th> <th colspan="2" style="text-align: center">ФЕС</th> <th rowspan="2">Ціна за од.</th> <th rowspan="2">Категорія</th> </tr>
+    <tr>
+
+
+        <th>ПАС</th>
+        <th>скл. РАО</th>
+        <th>Підрозділи</th>
+        <th>Книга втрат</th>
+        <th>баланс</th>
+        <th>позабаланс</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr><td>Глушник</td><td>12</td><td>1</td><td>1</td><td>2</td><td>8</td>
+        <td>4</td><td></td>
+        <td>1024,00</td><td>ІІ</td></tr>
+    </tbody>
+</table>
+
+</body>
+</html>

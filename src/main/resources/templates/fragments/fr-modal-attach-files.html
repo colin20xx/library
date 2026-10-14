@@ -1,0 +1,67 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="fragmentPdfForm">
+
+    <div class="modal-header">
+        <h3 class="modal-title">завантаження pdf </h3>
+
+        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="сlose">
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+
+        <table class="table small table-bordered mt-2">
+            <thead class="table-info">
+                <tr>
+                    <th>назва файлу</th>
+                    <th>завантажити</th>
+                    <th>переглянути</th>
+                    <th style="width: 400px">дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${appPdf != null}">
+                    <td th:text="${appPdf.fileName}"></td>
+                    <td>
+                        <a th:href="${'/uploads/' + appPdf.id + '/download'}" class="btn btn-outline-info btn-sm flex-fill">&#8595; завантажити </a>
+                    </td>
+                    <td></td>
+                    <td> <button class="btn btn-sm btn-outline-danger" th:value="${appPdf.id}" onclick="deletePDFofDocument(this)">видалити</button>
+                    </td>
+                </tr>
+
+                <tr th:unless="${appPdf != null}">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <form id="documentForm01" th:object="${tempAppPDF}" >
+                            <input style="width: 20px" type="hidden" th:field="*{documentId}">
+                            <!--                <input type="hidden" th:field="*{number}">-->
+                            <input style="width: 20px" type="hidden" th:field="*{documentType}">
+                            <input type="hidden" name="first_pdf" value="true">
+
+                            <input type="file" name="file-name01" accept="application/pdf" id="file-name01" aria-label="виберіть файл">
+                            <button class="btn btn-sm btn-outline-secondary" type="button"
+                                    data-url="/uploads/ajax/uploadPDF"
+                                    onclick="loadFilePDF(this)">завантажити</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <span id="span-msg-panel"></span>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel </button>
+    </div>
+
+</div>
+
+</body>
+</html>

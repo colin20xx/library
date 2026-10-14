@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>акти закладки</title>
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+    <style>
+        .header-two {
+            position: fixed; /* Fixes element relative to the viewport */
+            top: 43px; /* Positions it below Div One (adjust based on Div One's height + margin) */
+            left: 0;
+            right: 0;
+            /*background-color: #999;*/
+            color: white;
+            padding: 5px;
+            z-index: 9; /* Slightly lower z-index than div one, but still high */
+            height: 100px; /* Example fixed height */
+            /*border: 1px solid #0a3622;*/
+            margin: 5px;
+            background-color: #c0c0c0;
+        }
+
+        .content-scrollable {
+            /* Pushes content below the fixed headers. Adjust the top margin to match the combined height of the fixed headers plus any desired gap. */
+            margin-top: 110px; /* (50px + 40px + some spacing) */
+
+            /* Sets the height of the content div to fill the *remaining* viewport space dynamically.
+            calc(100vh - 130px) ensures it fits perfectly below the headers. */
+            /*height: calc(100vh - 200px);*/
+
+            overflow-y: visible; /* Adds a vertical scrollbar only when content overflows */
+            padding: 5px;
+            box-sizing: border-box; /* Ensures padding doesn't add extra height */
+            /*background-color: #f4f4f4;*/
+            /*border: 1px solid darkred;*/
+
+        }
+    </style>
+</head>
+
+<body data-page="aru-common-list">
+
+<!--<nav th:replace="~{fragments.html :: main_menu(${documentTypes})}"> </nav>-->
+<nav th:replace="~{fragments.html :: main_menu(${documentTypes})}"> </nav>
+<div th:replace="~{fragments/fragment-modal-global :: global-div-form}"></div>
+<!----------------------------------------------------------------------------------------------------[ search panel]-->
+<div class="header-two">
+    <span>Список акти закладки/освіження</span><br>
+    <input type="text" placeholder="номер" class="searchField" id="field_search_doc_number">
+    <input type="text" placeholder="вантажовідправник" class="searchField" id="field_sender" disabled>
+    <input type="text" placeholder="вантажоодержувач" class="searchField" id="field_receiver" disabled>
+    <input type="hidden" id="field_search_url" value="/invoice/search">
+    <button onclick="clearSearchFields()">очистити</button>
+</div>
+<!------------------------------------------------------------------------------------------------------[ body panel]-->
+<div class="content-scrollable">
+
+    <table class="table table-hover table-bordered table-sm w-100">
+        <thead class="table-info">
+        <tr>
+            <th style="text-align: center; width: 30px">ID</th>
+            <th style="text-align: center; width: 60px">№</th>
+            <th style="width: 150px">номер</th>
+            <th style="text-align: center; width: 100px">дата</th>
+            <th>вантажовідправник</th>
+            <th>вантажоодержувач</th>
+            <th>примітка</th>
+            <th style="text-align: center; width: 80px"> <span class="bi bi-bookmark"></span>/<span class="bi bi-bookmark-plus-fill"></span></th>
+            <th style="width: 200px">дії</th>
+        </tr>
+        </thead>
+        <tbody id="tableBodyList">
+<!--        <tr th:each="invoice : ${invoices_list}" th:class="${invoice.commitedAt == null ? 'table-warning' : ''}">-->
+<!--            <td style="font-size: small" th:text="${invoice.id}"> </td>-->
+<!--            <td class="p-0 text-center"> - </td>-->
+<!--            <td> <a th:href="@{/invoice/{id}(id=${invoice.id})}" th:text="${invoice.number}"></a> </td>-->
+<!--            <td class="text-center" th:text="${#dates.format(invoice.documentDate, 'dd.MM.yyyy')}"> </td>-->
+<!--            <td th:text="${invoice.sender}"> </td>-->
+<!--            <td th:text="${invoice.receiver}"> </td>-->
+
+<!--            <td th:text="${invoice.comments}"> </td>-->
+
+<!--            <td class="p-0 text-center">-->
+<!--                <i th:class="${invoice.commitedAt == null ? 'bi bi-bookmark-x m-0 fs-3' : 'bi bi-bookmark-check-fill m-0 fs-3'}"  title="проведено"></i>-->
+<!--            </td>-->
+
+<!--            <td class="">-->
+<!--                <div class="input-group gap-1">-->
+
+<!--                    <button class="btn btn-outline-info btn-sm flex-fill" th:data-url="@{/atc/{id}(id=${invoice.id})}"-->
+<!--                            th:data-redir-url="@{/atc/list}"-->
+<!--                            onclick="">&#9998;</button>-->
+
+<!--                    <button class="btn btn-outline-danger btn-sm flex-fill"-->
+<!--                            th:data-url="@{/invoice/{id}(id=${invoice.id})}"-->
+<!--                            th:data-redir-url="@{/docs}"-->
+<!--                            onclick="deleteItem(this)">DEL</button>-->
+
+<!--                    <a th:href="${invoice.firstPdf ? '/uploads/' + invoice.fileId + '/download' : ''}"-->
+<!--                       th:class="${invoice.firstPdf ? 'btn btn-outline-danger btn-sm flex-fill' : 'btn btn-outline-secondary btn-sm flex-fill disabled'}"-->
+<!--                       th:title="${invoice.firstPdf ? 'завантажити pdf документу' : 'документ відсутній'}"-->
+<!--                       th:text="${invoice.firstPdf ? '&#8595; PDF' : 'X PDF'}" >-->
+<!--                    </a>-->
+
+<!--                    &lt;!&ndash;                                <button th:class="${invoice.firstPdf ? 'btn btn-danger btn-sm flex-fill' : 'btn btn-outline-secondary btn-sm flex-fill disabled'}"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                        th:data-url="@{/atc/{id}(id=${invoice.id})}"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                        th:data-redir-url="@{/atc/list}"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                        onclick="download (this)"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                        th:text="${invoice.firstPdf ? '&#8595; PDF' : 'X PDF'}" ></button>&ndash;&gt;-->
+
+<!--                    <button class="btn btn-outline-success btn-sm flex-fill" th:data-url="@{/atc/{id}(id=${invoice.id})}"-->
+<!--                            th:data-redir-url="@{/atc/list}"-->
+<!--                            onclick="">XLS</button>-->
+<!--                </div>-->
+<!--            </td>-->
+<!--        </tr>-->
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+package net.nco.sklad.common;
+
+public enum Commands {
+    CMD_EDIT,
+    CMD_DELETE,
+    CMD_DEACTIVATE,
+    CMD_MOVE_UP,
+    CMD_MOVE_DOWN,
+
+    CMD_EDIT_DEPARTMENT,
+    CMD_DELETE_DEPARTMENT,
+    CMD_DEACTIVATE_DEPARTMENT,
+    CMD_MOVE_UP_DEPARTMENT,
+    CMD_MOVE_DOWN_DEPARTMENT;
+
+}

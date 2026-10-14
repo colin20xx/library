@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новий підрозділ</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+</head>
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+
+
+<div class="container-fluid p-0">
+    <div class="row g-0">
+
+        <div class="col-md-auto">
+            <div th:replace="~{fragments.html :: settings_vertical_menu}"> </div>
+        </div>
+
+        <div class="col p-1">
+
+            <form method="post" th:object="${new_dep}" th:action="@{/settings/deps/savenewdep}">
+                <div class="input-group mb-2">
+                    <span class="input-group-text" style="width: 300px" id="dep_parent">Підрозділ вищого рівня:</span>
+                    <input type="text" class="form-control">
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text" style="width: 300px" id="dep_short_name">Скорочена назва підрозділу:</span>
+                    <input type="text" class="form-control" placeholder="cкорочена назва підрозділу" th:field="*{shortName}" onblur="checkIfDepExist(this)">
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text" style="width: 300px" id="dep_full_name">Повна назва підрозділу:</span>
+                    <input type="text" class="form-control" placeholder="повна назва підрозділу" th:field="*{fullName}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text" style="width: 300px" id="resp_persone">Матеріально відповідальна особа:</span>
+                    <select id="sel_rank" class="form-select" >
+                        <option selected disabled>-- звання --</option>
+                        <option th:each="rank: ${ranks_list}" th:value="${rank.getIdRank()}" th:text="${rank.getRankTitle()}"></option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="Ім'я ПРІЗВИЩЕ" th:field="*{responsablePersone}">
+<!--                    <input type="text" class="form-control" placeholder="ПРІЗВИЩЕ" value="ПУПКІН">-->
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text" style="width: 300px" id="show_after">Відображати після:</span>
+                    <select class="form-select">
+                        <option selected>-- підрозділ --</option>
+                        <option th:each="dep: ${depsList}" th:value="${dep.getId()}" th:text="${dep.getShortName()} + ' - ' + ${dep.getFullName()}"> </option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text" style="width: 300px" id="dep_types">Тип підрозділу:</span>
+                    <select id="select_deps_types" th:field="*{depType}">
+                        <option selected th:value="0" th:data-dep-type="0">-- тип --</option>
+                        <option th:each="dep_t: ${dep_types}" th:value="${dep_t.id}" th:text="${dep_t.nameUA}" th:data-dep-type="${dep_t.description}"> </option>
+                    </select>
+                    <script>
+                        $('#select_deps_types').select2({
+                            // theme: 'bootstrap-5',
+                            width: '70%',
+                            // selectionCssClass: 'form-select',
+                            placeholder: "тип не вибрано",
+                            minimumResultsForSearch: Infinity,
+                            templateResult: function (item) {
+                                if(!item.id || !item.element) return item.text;
+                                const depType = $(item.element).data('depType');
+                                return $(`
+                                    <div class="d-flex justify-content-between">
+                                        <span>${item.text}</span>
+                                        <span>${depType ?? ''}</span>
+                                    </div>
+                               `);
+                           },
+                           templateSelection: function (item) { return item.text; }
+                        });
+                    </script>
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text" style="width: 300px" id="create_date_time">Дата і час створення:</span>
+                    <input type="text" class="form-control" th:field="*{createdAtDate}" th:value="${new_dep.getCreatedAtDate() +' '+ new_dep.getCreatedAtTime()}">
+                </div>
+
+
+
+                <div class="row">
+
+                   <div class="col-4">
+                       <label for="checkboxes-0"> <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">розформований</label>
+                   </div>
+
+                   <div class="col-4">
+                        <label for="checkboxes-1"> <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">містить підрозділи</label>
+                   </div>
+<!--                   <div class="col-4">-->
+<!--                        <label for="checkboxes-2"> <input type="checkbox" id="checkboxes-2" th:field="*{activeDep}" th:value="${true}" checked>діючий підрозділ</label>-->
+<!--                   </div>-->
+               </div>
+
+                <button id="submit_new_dep" type="submit" class="btn btn-primary" >Submit</button>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

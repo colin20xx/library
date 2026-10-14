@@ -1,0 +1,98 @@
+package net.nco.sklad.entity;
+
+import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
+@MappedSuperclass
+public class BaseUnit {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "number", nullable = false)
+    private String number;
+
+    private int category;
+
+    private int year;
+
+    @Column(name = "created_at",nullable = false)
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    private LocalDateTime deletedAt;
+
+    private String comment;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+}

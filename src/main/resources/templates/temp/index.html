@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <style>
+        .navbar .nav-link:hover{
+            background-color: #2b2f32;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-secondary p-0">
+    <div class="container-fluid">
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"> <a class="nav-link active" aria-current="page" href="/">home</a> </li>
+                <!--                    <li class="nav-item"> <a class="nav-link" href="/new_doc_form">новий<br>документ</a> </li>-->
+                <li class="nav-item"> <a class="nav-link " href="/akt-accept-transfer/new_app_form">+ апп</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/new_invoice_form?doc_type=накладна">+ накладна</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/new_akt_tech_condition_form">+ атс</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/new_card_form?doc_type=картка">+ картка</a> </li>
+<!--                <li class="nav-item"> <a class="nav-link" href="/akt-accept-transfer/4">додати майно<br>в документ</a> </li>-->
+                <li class="nav-item"> <a class="nav-link" href="/docs">документи</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/cards">картки</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/arrivals">надходження</a> </li>
+<!--                <li class="nav-item"> <a class="nav-link" href="/deps/units">майно<br>підрозділів</a> </li>-->
+                <li class="nav-item"> <a class="nav-link" href="/settings">налаштування</a> </li>
+            </ul>
+
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdownDocs">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            документи
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li> <a class="dropdown-item" href="/cards">картки</a></li>
+                            <li> <a class="dropdown-item" href="/docs">накладні</a></li>
+                            <li> <a class="dropdown-item" href="/akt-accept-transfer/list">акт прийому передачі</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            налаштування
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li> <a class="dropdown-item" href="/settings/deps">підрозділи</a></li>
+                            <li> <a class="dropdown-item" href="/settings/deps_types">типи підрозділів</a></li>
+                            <li> <a class="dropdown-item" href="/settings/military_objects">об'єкти</a></li>
+                            <li> <a class="dropdown-item" href="/settings/denominations">найменування</a></li>
+                            <li> <a class="dropdown-item" href="/settings/nomenclatures">номенклатури</a></li>
+                            <li> <a class="dropdown-item" href="/settings/suppliers_list">постачальники</a></li>
+                            <li> <a class="dropdown-item" href="/settings/docs_list">документи</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</nav>
+<div style="border: 1px solid red; width: 150px; height: 1500px">
+    text
+</div>
+</body>
+</html>

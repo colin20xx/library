@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Select dinamiche</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+
+<select id="categoria" style="width:200px;">
+    <option value="">Seleziona categoria</option>
+    <option value="frutta">Frutta</option>
+    <option value="auto">Auto</option>
+</select>
+
+<select id="elementi" style="width:200px;">
+    <option value="">Seleziona elemento</option>
+</select>
+
+<script>
+    $(document).ready(function() {
+
+        // inizializza select2
+        $('#categoria').select2();
+        $('#elementi').select2();
+
+        // dati
+        const dati = {
+            frutta: [
+                { id: 'mela', text: 'Mela' },
+                { id: 'banana', text: 'Banana' },
+                { id: 'pera', text: 'Pera' }
+            ],
+            auto: [
+                { id: 'fiat', text: 'Fiat' },
+                { id: 'bmw', text: 'BMW' },
+                { id: 'audi', text: 'Audi' }
+            ]
+        };
+
+        // cambio select principale
+        $('#categoria').on('change', function() {
+
+            const valore = $(this).val();
+
+            // svuota seconda select
+            $('#elementi').empty();
+
+            // opzione default
+            $('#elementi').append(
+                new Option('Seleziona elemento', '')
+            );
+
+            // aggiungi nuove opzioni
+            if (dati[valore]) {
+                dati[valore].forEach(function(item) {
+                    $('#elementi').append(
+                        new Option(item.text, item.id)
+                    );
+                });
+            }
+
+            // aggiorna select2
+            $('#elementi').trigger('change');
+        });
+
+    });
+</script>
+
+</body>
+</html>

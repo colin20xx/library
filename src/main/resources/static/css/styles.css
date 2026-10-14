@@ -1,0 +1,228 @@
+.span-width-150{width: 150px}
+.span-width-200{width: 200px}
+
+.navbar .nav-link:hover{ background-color: #2b2f32; }
+
+th.border-right-0{border-right: 0px}
+.border-left-0{border-left: 0px}
+
+input.exits-doc{ background-color: #ffcccc; border:1px solid #f15757 }
+input.not-exits-doc{ background-color: #d9f2d9; border:1px solid #035903}
+input.input-w-40{width: 40px; text-align: center}
+
+td.td-bg-commit{background-color:  #b3ffb3}
+td.td-bg-uncommit{background-color: #ffcccc}
+td.td-bg-create{background-color: #3385ff}
+
+tr.tr-not-commited td{background-color: #fefcdd}
+table.denom-table{ width: 100%; cursor: default}
+table.denom-table tr td{border: none; border-bottom: 1px solid #f0f0f0}
+
+table.denom-table tr:hover{ background-color: #e6e6ff; }
+
+table.table-doc-info{ border-collapse: collapse;  width: 100%; border-top: 1px solid; border-bottom: 1px solid; font-size: 0.875rem;}
+table.table-doc-info.bordered td{ border: 1px solid}
+table.table-doc-info td{ border: 1px; padding: 2px}
+
+.parent-container{
+    display: flex;
+    gap: 5px;
+    /*border: 1px solid blue;*/
+    padding: 5px;
+}
+
+/*-----------------------------------------------------------------------------------[ table with fixed header ]------*/
+.table-container {
+    /* Set a maximum height to enable vertical scrolling */
+    max-height: 700px;
+    /* Enable scrolling (both vertical and horizontal if needed) */
+    overflow: auto;
+    /* Optional: Add a border for clarity */
+    border: 1px solid #ccc;
+    padding-top: -1px;
+}
+
+table .table-common{
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Verdana, serif;
+    font-size: 12px;
+}
+
+.active-bg{ background-color: rgb(225, 250, 228); }
+.disactive-bg{ background-color: rgb(250, 226, 225); }
+
+table .table-common tbody tr:hover{
+    background-color: #9ec5fe;
+}
+
+table .table-common th, td {
+    /* Optional: basic styling */
+    /*padding: 8px 16px;*/
+    /*border: 1px solid #ccc;*/
+}
+
+td a {
+    display: block;
+    padding: 5px; /* Adjust padding as needed */
+    text-decoration: none; /* Optional: removes underline */
+    color: inherit; /* Optional: inherits text color */
+}
+
+.table-container thead th {
+    /* The key property: position the header cells sticky */
+    position: sticky;
+    /* Stick to the top of the scrolling container */
+    top: 0;
+    /* Ensure the header is above the body content when scrolling */
+    z-index: 2;
+    /* Set a background color so content doesn't show through */
+    background-color: #f7f7f7;
+    padding: 10px;
+}
+/*-----------------------------------------------------------------------------------[ container option ]------------*/
+.container-buttons{
+    display: flex;
+    /* Optional: Add space between the buttons */
+    /*gap: 0px;*/
+    /* Optional: Center the buttons horizontally within the TD */
+    /*justify-content: center;*/
+    border: 1px solid #0a3622;
+    /*height: 50px;*/
+
+}
+.container-buttons button{
+    border: 0px solid #4d5154;
+    flex-grow: 1;
+    height: 100%;
+    background-color: #f2f2f2;
+}
+.container-buttons button:active{
+    background-color: #4d5154;
+}
+
+/*-----------------------------------------------------------------------------------[ vertical menu ]----------------*/
+.sidebar {
+    position: fixed; /* Fixes the menu in place */
+    top: 40px;
+    left: 0;
+    height: 100vh; /* Makes the sidebar the full height of the viewport */
+    width: 200px; /* Set a desired width */
+    background-color: #f0f0f0; /* Optional: adds a background color */
+    padding-top: 10px;
+}
+.sidebar a:hover{
+    background-color: #8e979f;
+    color: #e9ecef;
+}
+
+.content_settings_div {
+    margin-left: 200px; /* Adds a margin to your content so it doesn't overlap the sidebar */
+    padding: 10px;
+    /*border: 1px solid red;*/
+
+}
+
+.not-have-selection{
+    background-color: #ffe6e6;
+}
+/*---------------------------------------------------------------------[ scrollable table with header fixed common ]--*/
+div.div-scrollable-common { overflow-y: scroll; margin-top: 5px; padding-top: -1px; }
+div.div-scrollable-common table { width: 100%; font-size: 0.875rem;}
+div.div-scrollable-common table thead th { position: sticky; top: 0px; background-color: #505050; color: #f0f0f0; z-index: 3; }
+
+/*----------------------------------------------------------------------------[ scrollable table with header fixed ]--*/
+div.div-scrollable-01 {
+    height: 400px;
+    max-height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #2b2f32;
+    /*margin: 5px;*/
+}
+
+table.scrollable-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+table.scrollable-table tbody td{border-bottom: 1px solid #a0a0a0}
+
+table.scrollable-table tr:hover{background-color: azure; cursor: default }
+
+thead.fixed-header th {
+    position: sticky;
+    top: 0;
+    background-color: #505050;
+    color: #f0f0f0;
+    z-index: 1;
+}
+/*-----------------------------------------------------------------------------------------------[ auxiliary class ]--*/
+tr.tr-central-small td{text-align: center; font-size: 0.750rem; padding: 0; background-color: #e6e6ff}
+/*----------------------------------------------------------------------------------------------------[ card table ]--*/
+table.cardsTable{ width: 100%; font-size: 0.875rem}
+table.cardsTable thead{ background-color: #a7b9b1;}
+table.cardsTable thead th{ text-align: center; } /*border: 1px solid #2b2f32;*/
+table.cardsTable thead th.w-custom{ width: 100px }
+table.cardsTable tr{ border-bottom: 1px solid green }
+
+#tableCardBody td{text-align: center}
+#tableCardBody tr:hover{background-color: #ecf9ec; cursor: pointer  }
+
+tr.highlight td{background-color: #e6ffe6; font-weight: bold}
+td.td-highlight{background-color: #e6ffe6; }
+
+/*--------------------------------------------------------------------------------[ card body table in details.html]--*/
+tbody.card-body-table tr.plus-move td{background-color: #f7fff7; text-align: center}
+tbody.card-body-table tr.minus-move td{background-color: #fffcf7; text-align: center}
+tbody.card-body-table tr.commited-off td{background-color: #fff5e6; text-align: center}
+.commited-none-row td{font-size: 2em; background-color: #fff5e6; border-top: 1px solid #664d03}
+.commited-done-row td{font-size: 2em; background-color: #ebfaeb; border-top: 1px solid #0a3622}
+
+/*tbody.card-body-table tr td.plus_move{text-align: center; background-color: #e6ffe6;}*/
+tbody.card-body-table tr td.align-left{text-align: left}
+
+/*-----------------------------------------------------------------------------------------------------[ popup div ]--*/
+/**
+TODO modal div
+ */
+.modal-div {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    padding-top: 60px;
+    left: 0;   top: 0;   width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-div-content {
+    background-color: #fefefe;
+    margin: auto;
+    /*padding: 10px;*/
+    /*border: 1px solid #888;*/
+    width: 95%;
+    height: 95%;
+}
+
+.close-div {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    width: 30px;
+    text-align: center;
+}
+
+.close-div:hover, .close-div:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #842029;
+    width: 30px;
+    text-align: center;
+}
+
+tbody.tempTableBody td{padding: 0; vertical-align: center}
+
+.pagination .page-link { width: 45px; text-align: center; }
+
+
+

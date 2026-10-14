@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/styles.css" rel="stylesheet">
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/js/script.js"></script>
+    <style>
+        .table-container01 {
+            height: 280px; /* Set a maximum height for the container */
+            overflow-y: auto;  /* Enable vertical scrolling when content exceeds max-height */
+            border: 1px solid #ccc; /* Optional: Add a border for visual clarity */
+        }
+
+        .table-container01 table {
+            width: 100%; /* Make the table take full width of its container */
+            border-collapse: collapse; /* Optional: Collapse table borders */
+            /*height: 270px;*/
+        }
+
+        .table-container01 table tr:hover{
+            background-color: #a7b9b1;
+        }
+
+        .table-container01 table th, td {
+            /*padding: 8px;*/
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-container01 table thead th {
+            position: sticky; /* Keep the header fixed at the top during scroll */
+            top: -2px;
+            background-color: #f1f1f1; /* Optional: Background for sticky header */
+            z-index: 1; /* Ensure header stays above scrolling content */
+        }
+
+    </style>
+
+</head>
+<body>
+<a href="arrivals_doc_form.html">назад</a><br>
+<div class="container-fluid">
+<div class="row">
+    <div class="col">
+        <div style="border: 1px solid #96a8a0; background: #c9dbd3; width: 1000px; margin-bottom: 2px">
+            <b>Тип документа:</b> Акт якісного технічного стану<br>
+            <b>Номер документа:</b> doc number
+            <b>Дата документа:</b> 01/01/2025
+            <b>Дата операції:</b> 01/01/2025<br>
+            <b>Постачальник:</b> ПрАТ " Харківський автогенний завод"(код) <b>Матеріально відповідальна особа:</b> звання ПІБ <br>
+            <b>Одержувач:</b> ПрАТ " Харківський автогенний завод"(код) <b>Матеріально відповідальна особа:</b> звання ПІБ<br>
+            <b>Примітка:</b> <input type="text" style="width: 800px" value="loooooooooong commennnntt">
+        </div>
+        <div style="width: 1000px; margin-bottom: 2px">
+            <form class="form-control">
+                <input oninput="findDenomOrCard(this)" class="form-control mb-2" type="text" placeholder="найменування або номер картки">
+                <div class="table-container01">
+                    <table id="denomTable">
+    <!--                <table class="table table-hover small">-->
+                        <thead>
+                        <tr>
+                            <th>найменування</th> <th>номенклатура</th><th>картка</th><th>ціна</th><th>кат</th><th>псд</th><th>бтс</th><th>об'єкт</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+        <div class="container p-0">
+            <div class="row">
+                <div class="col-6">
+                    <b>Найменування:</b> <input type="text" id="field_denomination" style="width: 350px" value=""><br>
+                    <b>Номенклатура:</b> <input type="text" id="field_nomenclature" style="width: 350px" value=""><br>
+                    <b>Категорія:</b> <input type="text" id="field_kat" style="width: 30px" value="">
+                    <b>Об'єкт:</b> <input type="text" id="field_military_object" style="width: 300px" value=""><br>
+
+                    <b>Картка №:</b> <input type="text" id="card_number" class="quantityNeeded_w100" value="">
+                    <b>Дата картки:</b> <input type="text" class="quantityNeeded_w100" value=""><br>
+                    <b>Нова картка №:</b> <input type="text" class="quantityNeeded_w100" value="">
+                    <b>Дата картки:</b> <input type="text" class="quantityNeeded_w100" value="">
+                </div>
+                <div class="col-6 p-0">
+                    <table class="table small mb-2">
+                        <tr>
+                            <td>Наявна кількість</td>
+                            <td>Польовий склад -  <input type="text" id="field_pl_sklad" class="quantityNeeded_w50"></td>
+                            <td>БТ склад - <input type="text" id="field_bt_sklad" class="quantityNeeded_w50"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Необхідна кількість</td>
+                            <td>Польовий склад -  <input type="text" id="field_pl_sklad_needed" value="6" class="quantityNeeded_w50"></td>
+                            <td>БТ склад - <input type="text" id="field_bt_sklad_needed" value="4" class="quantityNeeded_w50"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Ціна</td>
+                            <td colspan="2"><input type="text" id="field_price" style="height: 23px; width: 100%"></td>
+                        </tr>
+                        <tr>
+                            <td>Сума</td>
+                            <td colspan="2"><input type="text" value="" style="height: 23px; width: 100%"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col">
+        <table class="table table-bordered table-striped table-sm" id="nomenclatureTable">
+<!--        <table style="border: 1px solid; font-size: 12px;">-->
+            <thead>
+            <tr>
+                <th scope="col">№ з/п</th>
+                <th scope="col">найменування</th>
+                <th scope="col">номенклатура</th>
+                <th scope="col">пс</th>
+                <th scope="col">бтс</th>
+                <th scope="col">ціна</th>
+                <th scope="col">к-сть</th>
+                <th scope="col">сума</th>
+                <th scope="col">об'єкт</th>
+                <th scope="col">к-рія</th>
+                <th scope="col">картка</th>
+                <th scope="col">X</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">Всього:</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+</div>
+</body>
+</html>

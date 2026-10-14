@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Нова накладна</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+</head>
+
+<body>
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<div style="margin: 5px; display: flex">
+    <script th:inline="javascript" th:object="${invoice}">
+        // const im_obj = [[${invoice_mov}]];
+    </script>
+        <div style="margin: 2px; width: 1200px" > <!-- ------------------------------------------  left container ]-->
+            <form th:object="${im}">
+                <div style="background-color: #f5f5f5; display: flex;  padding: 5px">
+                    <div>
+                        <span>найменування</span> <input type="text" value="авт" name="denomination" oninput="findDenomOrCard(this)">
+                    </div>
+
+                    <div>
+                        <span>номенклатура</span> <input type="text" value="12А-45" name="nomenclature" oninput="findDenomOrCard(this)">
+                    </div>
+
+                    <div>
+                        <span>картка</span> <input type="text" value="1234" name="card" oninput="findDenomOrCard(this)">
+                    </div>
+                    <div>
+                        <input id="field_denom_id" type="hidden">
+                        <input id="field_nonencl_id" type="hidden">
+                    </div>
+                </div>
+                <!-- -----------------------------------------------------------------------------------------[ table denom ]-->
+                <div class="div-scrollable-01">
+
+                    <table id="denomTable" class="scrollable-table">
+                        <thead class="fixed-header">
+                        <tr> <th>найменування</th> <th>номенклатура</th> <th>об'єкт</th> </tr>
+                        </thead>
+                        <tbody id="table-denom-body"> </tbody>
+                    </table>
+                </div>
+                <div style="border: 1px solid #2b2f32; margin-top: -1px">
+                    <div style="background-color: rgba(0,100,26,0.24); padding: 2px; ">
+                        <b> Найменування:</b> <span id="span-denom-title"></span>
+                    </div>
+                    <div style="background-color: rgba(0,100,26,0.24); padding: 2px; ">
+                        <b> Номенклатура:</b> <span id="span-nomenc-title"></span> <br>
+                    </div>
+                </div>
+                <!-- -----------------------------------------------------------------------------------------[ table cards ]-->
+                <div style="height: 200px; margin-top: 2px; border: 1px solid #2b2f32;">
+                    <table id="cardsTable" class="cardsTable">
+                        <thead>
+                        <tr>
+                            <th class="w-custom">картка</th>
+                            <th class="w-custom">к-рія</th>
+                            <th class="w-custom">пс</th>
+                            <th class="w-custom">бтс</th>
+                            <th class="w-custom">заг. к-сть</th>
+                            <th>ціна</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tableCardBody"> </tbody>
+                    </table>
+                </div>
+                <!-- --------------------------------------------------------------------------------------[ card form data ]-->
+                <div style="border-top: 1px #0a3622">
+
+
+                    <div style="border: 0px solid #052c65; margin-top: 2px; padding: 2px; height: 60%">
+
+                        <table class="table table-bordered small">
+                            <tbody>
+                            <tr>
+                                <td colspan="2" style="border: 0px">
+                                    <label for="card_number" style="font-weight: bold">Картка №:</label>
+                                    <input id="card_number" type="text" style="width: 80px; text-align: center" value="">
+                                    <input id="input_card_next_num" type="button" value="№" style="margin-left: -6px">
+                                </td>
+                                <td style="border: 0px">
+                                    <label for="field_category" style="font-weight: bold">Категорія:</label>
+                                    <input id="field_category" type="number" min="1" max="5" style="text-align: center" value="">
+                                </td>
+                                <td style="border: 0px">
+                                    <label for="field_price" style="font-weight: bold">Ціна:</label>
+                                    <input id="field_price" type="text" style="text-align: right" value="" />
+                                    <input id="field_card_id" type="text" style="text-align: right; width: 40px" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Загальна кількість:</td>
+                                <td style="text-align: center; width: 30px;"> <input type="text" id="cardTotalCurrentQty" style="width: 70px; text-align: center"/> </td>
+                                <td style="text-align: center"> <input id="field_quantity_plus" type="text" value="" placeholder="надходить"> </td>
+                                <td style="text-align: center"> <input id="field_quantity_minus" type="text" value="" placeholder="вибуває"> </td>
+                            </tr>
+<!--
+                            <tr>
+                                <td>Склад БТ:</td>
+                                <td style="text-align: center;"> <input type="text" id="card_BTS_CurrentQty" style="width: 70px;  text-align: center" /> </td>
+                                <td th:class = "${invoice.receiver == 'БТС'} ? 'highlight' : ''"> <input id="field_qty_bts_needed_plus" type="text" value="" > </td>
+                                <td th:class = "${invoice.sender == 'БТС'} ? 'highlight' : ''"> <input id="field_qty_bts_needed_minus" type="text" > </td>
+                            </tr>
+                            <tr>
+                                <td>Польовий склад:</td>
+                                <td style="text-align: center;"> <input type="text" id="card_PS_CurrentQty" style="width: 70px;  text-align: center"/> </td>
+                                <td th:classappend="${invoice.receiver == 'БТС'} ? 'highlight' : ''"> <input id="field_qty_ps_needed_plus" type="text"> </td>
+                                <td th:classappend="${invoice.sender == 'ПС'} ? 'highlight' : ''"> <input id="field_qty_ps_needed_minus" type="text"> </td>
+                            </tr>
+                           -->
+                            </tbody>
+                        </table>
+                        <input id="card_id" type="hidden" />
+                    </div>
+
+                    <div id="im_obj" style="margin-top: 2px; padding: 2px; background-color: rgba(0,100,26,0.24); text-align: center">
+
+<!--                        <script th:inline="javascript">-->
+<!--                           window.tempIM = [[${im}]];-->
+<!--                        </script>-->
+
+                        <button type="button" style="width: 40%" onclick="addGoodToTempTable()">додати</button>
+                        <input type="button" style="width: 40%" value="очистити все">
+                    </div>
+
+                </div>
+            </form>
+        </div>  <!------------------------------------------------------------------------------- end left container -->
+
+        <div style="border: 0px solid red; width: 100%"> <!-- ----------------------------------------[ invoice summary ]-->
+
+            <div style="border: 0px solid #6f42c1; width: 100%; background-color: #f5f5f5; margin-bottom: 2px;">
+
+                <table class="table-doc-info">
+                    <tr>
+                        <td id="field_invoice_id" hidden th:text="${invoice.id}"></td>
+                        <td style="width: 150px; font-weight: bold">Тип документу:</td> <td style="width: 170px" th:text="${invoice.title}"></td>
+                        <td style="width: 160px; font-weight: bold">Вантажовідправник:</td> <td th:text="${invoice.sender}"></td>
+                        <td style="width: 120px; font-weight: bold">Представник:</td> <td th:text="${invoice.senderRespPerson}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold">Номер документу:</td> <td> <span th:text="${invoice.number}"></span> </td>
+                        <td style="font-weight: bold">Вантажоодержувач:</td> <td th:text="${invoice.receiver}"></td>
+                        <td style="font-weight: bold">Представник:</td><td th:text="${invoice.receiverRespPerson}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold">Дата документа:</td> <td> <span th:text="${#dates.format(invoice.documentDate, 'dd.MM.yyyy HH:mm')}"></span> </td>
+                        <td style="font-weight: bold">Дійсний до:</td><td> <span th:text="${#dates.format(invoice.expiresDate, 'dd.MM.yyyy HH:mm')}"></span> </td>
+                        <td style="font-weight: bold">Дата операції:</td> <td> <span th:text="${#dates.format(invoice.operationDate, 'dd.MM.yyyy HH:mm')}"></span> </td>
+                    </tr>
+                </table>
+            </div>
+            <!-----------------------------------------------------------------------------------------[ temp table]------->
+            <table class="table table-sm table-bordered h-75">
+                <thead>
+                <tr>
+                    <th style="width: 50px; text-align: center">№<br>з/п</th>
+                    <th>найменування</th>
+                    <th style="width: 200px">номенклатура</th>
+                    <th style="text-align: center; width: 70px">к-сть</th>
+                    <th style="text-align: center; width: 70px">ціна</th>
+                    <th style="text-align: center; width: 70px">к-рія</th>
+                    <th style="text-align: center; width: 70px">картка</th>
+                    <th style="text-align: center; width: 70px">дії</th>
+                </tr>
+                </thead>
+                <tbody id="tempTableBody">
+                <tr>
+                    <td colspan="8" height="100%">middle</td>
+                </tr>
+                </tbody>
+                <tfoot id="tempTableFooter">
+                    <tr>
+                        <td colspan="3">Всього:</td>
+                        <td id="totalSumQty" style="text-align: center">0</td>
+                        <td id="totalSumPrice" style="text-align: center">0</td>
+                        <td colspan="3"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+</div>
+
+
+
+
+</body>
+</html>

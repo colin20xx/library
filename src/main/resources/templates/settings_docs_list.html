@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список документів</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+<!--    <link href="/css/styles.css" rel="stylesheet">-->
+    <script src="/js/bootstrap.bundle.min.js"> </script>
+    <script src="/js/jquery-4.0.0.min.js"> </script>
+    <script src="/js/script.js"> </script>
+</head>
+<body>
+
+    <nav th:replace="~{fragments.html :: main_menu}"> </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <div th:replace="~{fragments.html :: settings_vertical_menu_01}"> </div>
+            </div>
+            <div class="col border p-3">
+
+                <form th:action="@{/settings/save_new_doc}" th:object="${doc_obj}" method="post">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon5">Назва документа</span>
+                        <input type="text" class="form-control" placeholder="повна назва" aria-label="" aria-describedby="basic-addon1" th:field="*{title}">
+                        <input type="text" class="form-control" placeholder="скорочена назва" aria-label="" aria-describedby="basic-addon1" th:field="*{titleShort}">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2" >Додати</button>
+                    </div>
+                </form>
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="table-secondary">
+                        <th>ID</th>
+                        <th>повна назва</th>
+                        <th>скорочена назва</th>
+                        <th>eng</th>
+                        <th>термін дії(дні)</th>
+                        <th style="width: 50px; text-align: center">картки</th>
+                        <th>операції</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="doc:${doc_list}">
+                        <td><span th:text="${doc.getId()}"></span></td>
+                        <td> <input type="text" th:value="${doc.getTitle()}" readonly style="width: 100%" /></td>
+                        <td> <input type="text" th:value="${doc.titleShort}" readonly style="width: 100%" /></td>
+                        <td> <input type="text" th:value="${doc.englishTitle}" readonly style="width: 100%" /></td>
+                        <td> <input type="text" th:value="${doc.getExpireDays()}"> </td>
+
+                        <td style="border-left: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0">
+                            <input type="checkbox" style="accent-color: #0b5ed7; width: 20px; height: 20px; cursor: pointer;" th:checked="${doc.cardIn} ? true : false">
+                            <input type="checkbox" style="accent-color: #dc3545; width: 20px; height: 20px; cursor: pointer;" th:checked="${doc.cardOut} ? true : false">
+                        </td>
+
+                        <td>
+                            <input type="button" value="edit">
+                            <input type="button" value="del" onclick="">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

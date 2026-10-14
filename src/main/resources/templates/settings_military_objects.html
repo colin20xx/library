@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    <script src="/js/bootstrap.bundle.min.js"> </script>
+    <script src="/js/jquery-4.0.0.min.js"> </script>
+    <script src="/js/script.js"> </script>
+</head>
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+
+
+<div th:replace="~{fragments.html :: settings_vertical_menu_01}"> </div>
+
+    <div class="content_settings_div">
+
+        <form th:action="@{/settings/save_new_milit_obj}" th:object="${new_milit_obj}" method="post">
+            <div class="input-group mb-2">
+
+                <span class="input-group-text" id="basic-addon5">Назва об'єкта(приклад: назва1, назва2)</span>
+                <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1" th:field="*{objectName}">
+
+                <span class="input-group-text" id="basic-addon6">Опис об'єкта(опис1, опис2)</span>
+                <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon2" th:field="*{description}">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon3" >Додати</button>
+
+                <div style="margin: 2px; border: 1px solid red; background-color: #c6acae; display: block"
+                     th:if="${#fields.hasErrors()}" th:errors="*{objectName}"> </div>
+                <div id="div_msg_ok" style="margin: 2px; border: 1px solid green; background-color: yellow; display: block"
+                     th:if="${successMessage}" th:text="${successMessage}"> </div>
+                <script>
+                    setTimeout(() => { const msg_div = document.getElementById('div_msg_ok'); if(msg_div){ msg_div.style.display = "none"; } }, 3000);
+                </script>
+            </div>
+        </form>
+
+        <form th:action="@{/settings/save_new_milit_obj_list}" method="post">
+            <div class="input-group mb-2">
+                <span class="input-group-text" id="basic-addon7">Назва об'єктів<br>(приклад: назва1,назва2)</span>
+                <textarea name="objects_list" class="input-group-text" aria-describedby="basic-addon7">назва1,назва2</textarea>
+                <span class="input-group-text" id="basic-addon8">Опис об'єктів<br>(приклад: опис1, опис2)</span>
+                <textarea name="objects_comment_list" class="input-group-text" aria-describedby="basic-addon8">опис1,опис2</textarea>
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon8" >Додати</button>
+            </div>
+        </form>
+
+        <div class="table-container border">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th  style="width: 70px">id</th>
+                        <th>найменування</th>
+                        <th>опис</th>
+                        <th  style="width: 150px">створений</th>
+                        <th  style="width: 150px">операції</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr th:each="milit_obj, stat : ${mil_obj}">
+                        <td style ="text-align: center; width: 90px"><span th:text="${stat.index + 1} +' : '+ ${milit_obj.getId()}"></span></td>
+                        <td><span th:text="${milit_obj.getObjectName()}"></span></td>
+                        <td><span th:text="${milit_obj.getDescription()}"></span></td>
+                        <td><span th:text="${#temporals.format(milit_obj.getCreatedAt(), 'dd.MM.yyyy HH:mm')}"></span></td>
+                        <td>
+                            <div class="container-buttons">
+                                <button id="edit" disabled>&#9998;</button>
+                                <button th:onclick="'deleteItem('+ ${milit_obj.id} +')'">&#128465;</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

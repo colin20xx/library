@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    <script src="/js/bootstrap.bundle.min.js"> </script>
+    <script src="/js/jquery-4.0.0.min.js"> </script>
+    <script src="/js/script.js"> </script>
+
+</head>
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<div th:replace="~{fragments.html :: settings_vertical_menu_01}"> </div>
+
+
+<div class="content_settings_div">
+
+    <div class="navbar navbar-light bg-light mb-2">
+        <a href="/settings/deps">&#8617;</a>
+        <br>
+        <span th:text="${dep.getShortName() + ' - ' + dep.getFullName()}"></span>
+        <span th:text="${'Кількість підрозділів: ' + sub_dep_list.size()}"></span>
+        <a class="btn btn-primary" th:href="@{/settings/dep/formaddnewsubdep(iddep=${dep.getId()}) }" role="button">Додати підрозділ</a>
+    </div>
+<!--    class="table-container"-->
+        <div >
+            <table class="table table-hover table-sm">
+                <thead>
+                <tr><th style="width: 60px">№ з/п</th> <th>скорочено</th> <th>повне найменування</th> <th>матеріально відповідальна особа</th> <th>активний</th> </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="sub_dep : ${sub_dep_list}">
+                    <td><span th:text="${sub_dep.getId()}"></span></td>
+                    <td><span th:text="${sub_dep.getShortName()}"></span></td>
+                    <td><span th:text="${sub_dep.getLongName()}"></span></td>
+
+                    <td style="height: 45px">
+                        <input type="text"
+                               th:id="${sub_dep.getId()}"
+                               th:value="${sub_dep.getResponsiblePerson()}"
+                               style="width: 100%; height: 100%; border: none"
+                               onblur="registerRespPersone(this)"
+                        >
+                    </td>
+
+                    <td class="p-0" style="height: 45px">
+                        <div class="btn-group rounded-0 h-100 w-100" role="group" aria-label="Basic example">
+                            <button th:id="${sub_dep.getId()+'_'+sub_dep.getIdDepartment().getId()}" th:value="${commands[0]}" type="button" class="btn" onclick="changeDepPosition(this)">&#x1F5AB;</button>
+                            <button th:id="${sub_dep.getId()+'_'+sub_dep.getIdDepartment().getId()}" th:value="${commands[1]}" type="button" class="btn" onclick="changeDepPosition(this)">&#9989;</button>
+                            <button th:id="${sub_dep.getId()+'_'+sub_dep.getIdDepartment().getId()}" th:value="${commands[2]}" type="button" class="btn" onclick="changeDepPosition(this)">&#128465;</button>
+                            <button th:id="${sub_dep.getId()+'_'+sub_dep.getIdDepartment().getId()}" th:value="${commands[3]}" type="button" class="btn" onclick="changeDepPosition(this)">&#8657;</button>
+                            <button th:id="${sub_dep.getId()+'_'+sub_dep.getIdDepartment().getId()}" th:value="${commands[4]}" type="button" class="btn" onclick="changeDepPosition(this)">&#8659;</button>
+                        </div>
+
+                    </td>
+
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+</body>
+</html>

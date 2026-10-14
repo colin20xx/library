@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новий документ</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+</head>
+
+<body>
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<!--<header th:insert="~{fragments.html :: main_menu}"> </header>-->
+
+<div>
+    <form method="post" th:object="${new_doc}" th:action="@{/doc_content_form}">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-2">
+                    <div class="p-1">
+                        <select id="selectDocType" class="form-select-sm w-100" size="30" th:field="*{document}">
+                            <option th:each="docum: ${doc_list}" th:value="${docum.getId()}" th:text="${docum.getTitle()}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col p-2 text-bg-light">
+
+                    <div class="container-fluid">
+
+                        <div class="row g-3">
+                            <div class="col-md-3 p-1"><div>
+                                <label for="doc_num" class="col-form-label-sm">номер документа:</label>
+                                <input type="text" class="form-control" id="doc_num" th:field="*{number}"
+                                        oninput="checkDocNumberAndDocTypeSelected(this)"
+                                >
+                            </div></div>
+
+                            <div class="col-md-3 p-1"><div>
+                                <label for="data_doc" class="col-form-label-sm">дата документа:</label>
+                                <input type="text" id="data_doc" class="form-control" th:field="*{docDateTime}">
+                                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                                <script> flatpickr("#data_doc", { enableTime: true, time_24hr: true, dateFormat: "d.m.Y H:i"}); </script>
+                            </div></div>
+
+                            <div class="col-md-3 p-1"><div>
+                                <label for="data_doc_oper" class="col-form-label-sm">дата операції:</label>
+                                <input type="text" id="data_doc_oper" class="form-control" th:field="*{docDateTimeOperation}">
+                                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                                <script> flatpickr("#data_doc_oper", { enableTime: true, time_24hr: true, dateFormat: "d.m.Y H:i"}); </script>
+                            </div></div>
+
+                            <div class="col-md-3 p-1"><div>
+                                <label for="data_doc_oper" class="col-form-label-sm">дата дійсний до:</label>
+                                <input type="text" id="data_doc_during" class="form-control" th:field="*{docDateTimeOperation}">
+                                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                                <script> flatpickr("#data_doc_during", { enableTime: true, time_24hr: true, dateFormat: "d.m.Y H:i"}); </script>
+                            </div></div>
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                $('.operator').select2();
+
+                            });
+                        </script>
+                        <div class="row g-3">
+                            <div class="col-md-6 p-1">
+
+                                <script th:inline="javascript"> var departList = /*[[${dep_list}]]*/ []; </script>
+
+<!--                                  + '_' +  (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0) -->
+
+                                <label class="col-form-label-sm">вантажовідправник:</label>
+                                <select id="sender_page" style="width:100%;" class="operator" name="sender" onchange="getRespPersone(this, sender_name, departList)">
+                                    <option value=""></option>
+                                    <option
+                                            th:each="dep : ${dep_list}"
+                                            th:value="${dep.getIdDep() + '_' + (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                                            th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '')
+                                                        + '    ' + (dep.getResponsiblePersone()!='' ? '> '+ dep.getResponsiblePersone() : '')
+                                            }">
+
+                                    </option>
+                                </select>
+
+                                <label class="col-form-label-sm">відповідальна особа:</label>
+                                <input id="sender_name" type="text" class="form-control">
+                            </div>
+
+                            <div class="col-md-6 p-1">
+                                <label class="col-form-label-sm">вантажоодержувач:</label>
+
+<!--                                + '_'+  (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)-->
+
+                                <select id="receiver_page" style="width:100%;" class="operator" name="receiver" onchange="getRespPersone(this, receiver_name, departList)">
+                                    <option value=""></option>
+                                    <option
+                                            th:each="dep : ${dep_list}"
+                                            th:value="${dep.getIdDep()+ '_'+  (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                                            th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '') }">
+                                    </option>
+                                </select>
+
+                                <label class="col-form-label-sm">відповідальна особа:</label>
+                                <input id="receiver_name" type="text" class="form-control">
+                            </div>
+
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col p-1">
+                                <label class="col-form-label-sm">примітка:</label>
+                                <input type="text" class="form-control" id="doc_comments" value="примітка">
+                            </div>
+
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-2 p-1">
+                                <input id="inputDocSubmit" type="submit" class="form-control" value="зберегти" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                </div>
+
+            </div>
+    </form>
+</div>
+
+</body>
+</html>

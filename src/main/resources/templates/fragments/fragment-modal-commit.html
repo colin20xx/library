@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<!--
+    confirmModal
+    ------------------------------
+    modalId             - ID of the modal element
+    title               - Modal title
+    body                - Confirmation message
+    actionUrl           - URL submitted by the confirmation button
+    doc_type            - Document type
+    doc_id              - Document ID
+    commitDate          - Current commit date
+    redirect_doc_path   - Path/URL to the document
+-->
+<div th:fragment="confirmModal(modalId, title, body, actionUrl, doc_type, document, commitDate, redirect_doc_path)">
+    <div class="modal fade"
+         th:id="${modalId}"
+         tabindex="-1"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-info">
+                    <h6 class="modal-title" th:text="${title}">Title</h6>
+                    <button type="button"
+                            class="btn-close btn-sm"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+                    <form th:action="${actionUrl}" th:object="${document}" method="post">
+
+                        <div class="modal-body">
+                            <p th:text="${body}">Body</p>
+                            <input id="date_doc" name="commitDate" type="text" class="form-control flatpickr-datetime">
+                            <textarea style="width: 100%; margin-top: 5px; height: 100px"></textarea>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <div>
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    не закривати поточну форму
+                                </label>
+                            </div>
+                            <div>
+                                <button class="btn btn-secondary" data-bs-dismiss="modal">відміна</button>
+
+                                <input type="hidden" name="docType" th:value="${doc_type}">
+                                <input type="hidden" name="docId" th:value="${document.id}">
+                                <input type="hidden" name="redirectDocPath" th:value="${redirect_doc_path}">
+
+                                <button type="submit" th:disabled="${commitDate != null ? true : false}" class="btn btn-primary" th:value="${commitDate != null ? commitDate : null}">
+                                    <i class="bi bi-check-circle-fill"> </i> провести
+                                </button>
+                                <button type="submit" th:disabled="${commitDate == null ? true : false}" class="btn btn-outline-danger" name="unCommit" value="true">
+                                    <i class="bi bi-x-circle"> </i> розпровести
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<----------------------------------------------------------------!--[ div-modal-document-history-list(history_list) ]-->
+
+<div th:fragment="div-modal-document-history-list(history_list)">
+    <div class="modal fade" id="id-div-modal-document-history" tabindex="-1" aria-hidden="true">
+
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-info">
+                    <h6 class="modal-title">Історія проведень документу:</h6>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-hover table-bordered small">
+                        <thead class="table-info">
+                        <tr style="vertical-align: top">
+                            <th style="width: 30px">№</th>
+                            <th style="width: 100px">тип</th>
+                            <th style="width: 130px">дата запису</th>
+                            <th>коментар</th>
+                            <th style="width: 130px">дата проведення</th>
+                            <th style="width: 130px; color: #6c757d">оператор</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <!------------------------------------[ хуйня, переробити блок -> зробити логіку для статусів проведень ]-->
+                            <tr th:each="historyRecord, stat: ${history_list}">
+                                <td th:text="${stat.index + 1}"></td>
+                                <th:block th:switch="${historyRecord.commitAction}">
+                                    <td th:case="${commit_actions[0]}" class="td-bg-create">створено</td>
+                                    <td th:case="${commit_actions[1]}" class="td-bg-commit">проведено</td>
+                                    <td th:case="${commit_actions[2]}" class="td-bg-uncommit">розпроведено</td>
+                                </th:block>
+                                <td th:text="${#temporals.format(historyRecord.recordDateTime,'dd.MM.yyyy HH:mm')}"></td>
+                                <td th:text="${historyRecord.comment}"></td>
+                                <td th:text="${#temporals.format(historyRecord.commitDateTime,'dd.MM.yyyy HH:mm')}"></td>
+                                <td style="color: #6c757d">---</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-footer justify-content-between">
+                    <div> <button class="btn btn-secondary" data-bs-dismiss="modal">відміна</button> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

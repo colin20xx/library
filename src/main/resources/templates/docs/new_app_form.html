@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новий акт прийому передачі</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="../../static/css/flatpickr.min.css">
+    <link rel="stylesheet" href="../../static/css/select2.min.css">
+    <link rel="stylesheet" href="../../static/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../static/css/bootstrap-icons.css">
+
+
+    <script src="../../static/js/bootstrap.bundle.min.js"> </script>
+    <script src="../../static/js/jquery-4.0.0.min.js"> </script>
+    <script src="../../static/js/script.js"> </script>
+    <script src="../../static/js/flatpickr.min.js"> </script>
+    <script src="../../static/js/select2.min.js"> </script>
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: block;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;   top: 0;   width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0,0,0);
+            /* Fallback color */
+            background-color: rgba(0,0,0,0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            /*padding: 10px;*/
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            width: 30px;
+            text-align: center;
+        }
+
+        .close:hover, .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+            background-color: #842029;
+            width: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+
+<!-- Trigger/Open The Modal -->
+<button id="myBtn">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <form method="post" th:action="@{/akt-accept-transfer/save_new}" th:object="${new_akt_at}">
+    <!-- Modal content -->
+        <div class="modal-content">
+            <div style="background-color:rgba(7,15,241,0.93); color: white; display: flex; align-items: center">
+                <span style="width: 100%; padding: 10px">Новий акт прийому-передачі</span>
+                <span class="close">&times;</span>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row g-3">
+
+                    <div class="col">
+                        <label class="col-form-label-sm">номер документа:</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="номер документа" aria-label="Recipient’s username" aria-describedby="button-addon2" th:field="*{number}">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">№</button>
+                            <input id="field_doc_title" type="text" value="document_akt_acceptance_transfer">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label for="data_doc" class="col-form-label-sm">дата документа:</label>
+                        <input type="datetime-local" id="data_doc" class="form-control" th:field="*{documentDate}">
+                        <script>
+                            flatpickr("#data_doc", {
+                                enableTime: true, time_24hr: true, dateFormat: "d.m.Y H:i", defaultDate: new Date(),
+                                onChange: function (selectedDates, dateStr, instance) { document.getElementById('data_doc_oper').value = dateStr;}
+                            }); </script>
+                    </div>
+
+                    <div class="col">
+                        <label for="data_doc_oper" class="col-form-label-sm">дата операції:</label>
+                        <input type="text" id="data_doc_oper" class="form-control" th:field="*{operationDate}">
+                        <script> flatpickr("#data_doc_oper", {enableTime: true, time_24hr: true, dateFormat: "d.m.Y H:i" }); </script>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6 p-1">
+
+                        <script th:inline="javascript"> var departList = /*[[${dep_list}]]*/ []; </script>
+
+                        <label class="col-form-label-sm" for="sender_page">вантажовідправник:</label>
+                        <script> $(document).ready(function () { $('#sender_page').select2(); }); </script>
+                        <div class="input-group">
+                            <select id="sender_page" class="form-select w-75" name="serder_ids" onchange="getRespPersone(this, sender_name, departList)" >
+                                <option value=" "></option>
+                                <option
+                                        th:each="dep : ${dep_list}"
+                                        th:value="${dep.getIdDep() + '_' + (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                                        th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '')}"
+                                        th:data-dep = "${dep.depsShortName}"
+                                        th:data-subdep = "${(dep.subDepsShortName != null ? dep.subDepsShortName : '')}">
+                                </option>
+                            </select>
+                            <button type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, sender_page, '71_0')">П Склад</button>
+                            <button type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, sender_page,'72_0')">БТ Склад</button>
+
+                        </div>
+                        <div>
+                            <label class="col-form-label-sm" for="sender_name">відповідальна особа:</label>
+                            <input id="sender_name" type="text" class="form-control" th:field="*{responsiblePersonSender}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 p-1">
+                        <label class="col-form-label-sm" for="receiver_page">вантажоодержувач:</label>
+                        <div class="input-group">
+
+                            <select id="receiver_page" class="form-select w-75" name="receiver_ids" onchange="getRespPersone(this, receiver_name, departList)">
+                                <option value=""></option>
+                                <option
+                                        th:each="dep : ${dep_list}"
+                                        th:value="${dep.getIdDep()+ '_'+  (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                                        th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '') }"
+                                        th:data-dep = "${dep.depsShortName}"
+                                        th:data-subdep = "${(dep.subDepsShortName != null ? dep.subDepsShortName : '')}">
+                                </option>
+                            </select>
+                            <button id="btn_receiver_ps" type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, receiver_page, '71_0')">П Склад</button>
+                            <button id="btn_receiver_bts" type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, receiver_page,'72_0')">БТ Склад</button>
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+
+                                function formatOption(option) {
+                                    if (!option.id) {
+                                        return option.text;
+                                    }
+
+                                    const secondColumn = $(option.element).data('subdep');
+
+                                    return $(`
+                                                        <div style="display:grid; grid-template-columns: 150px 1fr;">
+                                                            <span>${option.text}</span>
+                                                            <span style="color:#555555;">${secondColumn ?? ''}</span>
+                                                        </div>
+                                                    `);
+                                }
+
+                                $('#receiver_page').select2({
+                                    templateResult: formatOption,
+                                    templateSelection: function(option) {
+                                        return option.text; // selected value remains "val1"
+                                    }
+                                });
+
+                            });
+                        </script>
+
+                        <label class="col-form-label-sm">відповідальна особа:</label>
+                        <input id="receiver_name" type="text" class="form-control" th:field="*{responsiblePersonReceiver}">
+                    </div>
+
+                </div>
+
+                <div class="row g-3">
+                    <div class="col p-1">
+                        <label class="col-form-label-sm" for="doc_comments">примітка:</label>
+                        <input type="text" class="form-control" id="doc_comments" value="примітка" th:field="*{comments}">
+                        <p></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="background-color: rgba(7,15,241,0.29); display: flex; justify-content: center; height: 60px; padding: 10px; gap: 20px">
+                <input type="submit" class="form-control w-25" value="зберегти">
+                <input type="button" class="form-control w-25" value="очистити все" disabled>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {   modal.style.display = "block"; }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {   modal.style.display = "none"; }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        } }
+</script>
+
+</body>
+</html>
+

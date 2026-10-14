@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+
+    <style>
+        .modal {
+            display: none;
+        }
+
+        .modal.show {
+            display: block;
+        }
+    </style>
+</head>
+<body  data-page="cards-common-list">
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<div th:replace="~{fragments.html :: sidebar}"></div>
+<div th:replace="~{fragments/fragment-modal-global :: global-div-form}"></div>
+
+<div style="border: 1px solid #052c65; width: 100%; height: 40px; background-color: #e6e6ff; padding: 5px">
+    <form>
+        <input class="searchField" id="field_search_app_number" type="number" step="1" placeholder="картка">
+        <input class="searchField" id="field_search_denomination" type="text" placeholder="найменування">
+        <input type="hidden" id="field_search_url" value="/cards/search">
+        <button type="button">очистити</button>
+    </form>
+</div>
+
+
+<!--<div class="div-scrollable-common" style="height: 600px">-->
+<!--    <table>-->
+<!--        <thead>-->
+
+<div style="width: 100%; height: 100%; background-color: #f7f7ff; margin-top: 1px; padding: 5px; display: flex; gap: 10px">
+
+        <div class="input-group d-flex">
+            <a class="input-group-text btn btn-secondary" href="/new_card_form?doc_type=картка">нова картка</a>
+            <span class="input-group-text" th:text="${'кількість карток: ' + totalElements}"></span>
+            <span class="input-group-text" th:text="${'кількість сторінок: ' + totalPages}"></span>
+        </div>
+
+        <nav aria-label="Page navigation example">
+
+            <ul class="pagination justify-content-end m-0" style="width: 550px;">
+
+                <li class="page-item"> <a class="page-link" th:if="${cards.number > 0}" th:href="@{cards/list(page=0, size=${cards.size})}">
+                    <i class="bi bi-arrow-90deg-down"></i>
+                </a></li>
+
+                <li class="page-item"> <a class="page-link" th:if="${cards.hasPrevious()}" th:href="@{/cards/list(page=${cards.number - 1}, size=${cards.size})}">
+                    <i class="bi bi-arrow-left-short"></i> </a> </li>
+
+
+                <li class="page-item" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == cards.number} ? 'active'">
+
+                    <a class="page-link" th:href="@{/cards/list(page=${page}, size=${cards.size})}" th:text="${page + 1}"> </a>
+
+                </li>
+
+                <li class="page-item"> <a class="page-link" th:if="${pageEnd < cards.totalPages - 1}"
+                                          th:href="@{/cards/list(page=${cards.totalPages - 1}, size=${cards.size})}"
+                                          th:text="${cards.totalPages}">
+                </a> </li>
+
+
+            </ul>
+        </nav>
+</div>
+    <div style="padding: 5px">
+        <table class="table table-bordered table-hover table-sm small w-100">
+            <thead class="table-dark">
+                <tr>
+                    <td style="width: 50px; text-align: center">№ з/п</td>
+                    <td style="width: 90px; text-align: center">картка №</td>
+                    <td style="width: 100px; text-align: center">дата</td>
+                    <td>найменування</td>
+                    <td style="width: 200px">номенклатура</td>
+                    <td style="width: 50px; text-align: center">к-рія</td>
+                    <td style="width: 150px; text-align: center">ціна</td>
+                    <td style="width: 80px; text-align: center">пс</td>
+                    <td style="width: 80px; text-align: center">снсо</td>
+                    <td style="width: 80px; text-align: center">підрозділи</td>
+                    <td style="width: 90px; text-align: center">кількість</td>
+                    <td style="width: 150px; text-align: center">сума</td>
+                    <td style="width: 150px; text-align: center">об'єкт</td>
+                    <td style="width: 150px; text-align: center">дії</td>
+                </tr>
+            </thead>
+            <tbody id="tableBodyList">
+                <tr th:each="card, stat: ${cards.content}">
+                    <td style="text-align: center; height: 50px" th:text="${cards.number * cards.size + stat.index + 1}"></td>
+                    <td th:style="${card.closedAt == null} ? 'background-color: #e6ffe6; text-align:center;' : 'background-color: #ffe6e6; text-align:center;'">
+                        <a th:href="@{/cards/{id}/details(id=${card.id})}" th:text="${#numbers.formatInteger(card.cardNumber,5)}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(card.cardDateTime, 'dd.MM.yyyy') }" style="text-align: center"></td>
+                    <td th:text="${card.getDenomination().getDenominationName()}"></td>
+                    <td th:text="${card.nomenclature} == null ? '' : ${card.nomenclature.nomenclatureName}"></td>
+                    <td th:text="${card.category}" style="text-align: center"></td>
+                    <td th:text="${#numbers.formatDecimal(card.price, 1, 'WHITESPACE', 5, 'POINT')}" style="text-align: right"></td>
+                    <td th:text="${card.qtyPS}" style="text-align: center"></td>
+                    <td th:text="${card.qtyBTS}" style="text-align: center"></td>
+                    <td th:text="${card.qtyDEPS}" style="text-align: center"></td>
+                    <td th:text="${card.totalQty}" style="text-align: center"></td>
+                    <td th:text="${#numbers.formatDecimal(card.totalSum, 1, 'WHITESPACE', 5, 'POINT')}" style="text-align: right"></td>
+                    <td th:text="${card.denomination.parentObjMil.objectName}" style="text-align: center"></td>
+                    <td style="">
+                        <div class="input-group input-group-sm">
+                            <button class="btn btn-outline-info btn-sm w-50 m-0 p-0"
+                                    th:attr="data-id=${card.id}"
+                                    th:data-url="@{/cards/{id}(id=${card.id})}"
+                                    onclick="openEditFromForCard(this)">&#9998;</button>
+                            <button class="btn btn-outline-danger btn-sm w-50 m-0 p-0" th:data-url="@{/cards/{id}(id=${card.id})}" onclick="deleteItem(this)">X</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+<!------------------------------------------------------------------------------------[ modal div edit card form ]----->
+<div class="modal fade" id="editAtcModal" tabindex="-1" aria-labelledby="editAtcModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header bg-secondary p-2">
+                <i class="bi bi-card-text fs-2 m-0 p-0 lh-1 text-white"></i> &nbsp;
+                <h5 class="modal-title text-white" id="editAtcModalLabel"> Картка № <span id="docID"></span> </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="editAtcForm">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text span-width-150" id="basic-addon3">Найменування:</span>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4" value="Брухт свинцевих акумуляторів і акумуляторних батарей у поліпропіленових моноблоках свинець 12 ДСТУ 3211-2009">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text span-width-150" id="basic-addon2">Номенклатура:</span>
+                        <input type="text" class="form-control" id="basic-url-01" aria-describedby="basic-addon2 basic-addon4">
+                    </div>
+
+                    <div class="d-flex gap-2 mb-1">
+                        <div class="input-group">
+                            <span class="input-group-text span-width-150" id="basic-addon1">Розпочато:</span>
+                            <input type="text" class="form-control" id="basic-url-02" aria-describedby="basic-addon2 basic-addon4">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text span-width-150" id="basic-addon4">Категорія:</span>
+                            <input type="text" class="form-control" id="basic-url-03" aria-describedby="basic-addon2 basic-addon4">
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text span-width-150" id="basic-addon5">Закінчено:</span>
+                            <input type="text" class="form-control" id="basic-url-04" aria-describedby="basic-addon2 basic-addon4">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text span-width-150" id="basic-addon6">Статус:</span>
+                            <input type="text" class="form-control" id="basic-url-05" aria-describedby="basic-addon2 basic-addon4">
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-2 w-50">
+                            <div class="input-group">
+                                <span class="input-group-text span-width-200" id="basic-addon7">Кількість ПС:</span>
+                                <input type="text" class="form-control text-end" id="basic-url-06" aria-describedby="basic-addon2 basic-addon4" value="10">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text span-width-200" id="basic-addon8">Кількість СНСО:</span>
+                                <input type="text" class="form-control text-end" id="basic-url-07" aria-describedby="basic-addon2 basic-addon4" value="10">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text span-width-200" id="basic-addon9">Кількість підрозділи:</span>
+                                <input type="text" class="form-control text-end" id="basic-url-08" aria-describedby="basic-addon2 basic-addon4" value="10">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text span-width-200" id="basic-addon10">Ціна:</span>
+                                <input type="text" class="form-control text-end" id="basic-url-09" aria-describedby="basic-addon2 basic-addon4" value="10,00 &#8372;">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text span-width-200" id="basic-addon11">Загальна кількість:</span>
+                                <input type="text" class="form-control text-end" id="basic-url-10" aria-describedby="basic-addon2 basic-addon4"  value="10">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text span-width-200" id="basic-addon12">Сума:</span>
+                                <input type="text" class="form-control text-end" id="basic-url-11" aria-describedby="basic-addon2 basic-addon4" value="1 000,00 &#8372;">
+                            </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="editAtcForm" class="btn btn-primary"> Save </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!-----------------------------------------------------------------------------------------------[ head block ]-------->
+    <th:block th:fragment="baseContent">
+        <link rel="preload" href="/fonts/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin>
+        <link href="/css/bootstrap-icons.css" rel="stylesheet">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/flatpickr.min.css" rel="stylesheet">
+        <link href="/css/select2.min.css" rel="stylesheet">
+        <link href="/css/styles.css" rel="stylesheet">
+
+        <script src="/js/bootstrap.bundle.min.js" defer> </script>
+        <script src="/js/jquery-4.0.0.min.js" defer> </script>
+        <script src="/js/flatpickr.min.js" defer> </script>
+        <script src="/js/select2.min.js" defer> </script>
+        <script type="module" src="/js/popups.js"></script>
+        <script src="/js/script.js" defer> </script>
+    </th:block>
+
+<!--<link rel="stylesheet" href="../../static/css/bootstrap.min.css">-->
+<!--<link rel="stylesheet" href="../../static/css/styles.css">-->
+<!--<link rel="stylesheet" href="../../static/css/flatpickr.min.css">-->
+<!--<link rel="stylesheet" href="../../static/css/select2.min.css">-->
+<!--<link rel="stylesheet" href="../../static/css/bootstrap-icons.min.css">-->
+<!--<link rel="stylesheet" href="../../static/css/bootstrap-icons.css">-->
+
+<!--<script src="../../static/js/bootstrap.bundle.min.js"> </script>-->
+<!--<script src="../../static/js/jquery-4.0.0.min.js"> </script>-->
+<!--<script src="../../static/js/script.js"> </script>-->
+<!--<script src="../../static/js/flatpickr.min.js"> </script>-->
+<!--<script src="../../static/js/select2.min.js"> </script>-->
+
+
+<nav th:fragment="main_menu_01" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <!-- First row -->
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <a class="navbar-brand" href="#">My App</a>
+
+            <div>
+                <a class="nav-link d-inline text-white" href="#">Home</a>
+                <a class="nav-link d-inline text-white" href="#">Settings</a>
+            </div>
+        </div>
+
+        <!-- Second row -->
+        <div class="w-100 border-top mt-2 pt-2">
+            <a class="btn btn-sm btn-outline-light me-2" href="#">Documents</a>
+            <a class="btn btn-sm btn-outline-light me-2" href="#">Invoices</a>
+            <a class="btn btn-sm btn-outline-light me-2" href="#">Contracts</a>
+            <a class="btn btn-sm btn-outline-light" href="#">Reports</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<!------------------------------------------------------------------------------------------------[ main menu ]-------->
+<!--    <nav th:fragment="main_menu(documentsTypes)" class="navbar navbar-expand-md sticky-top navbar-dark bg-secondary p-0">-->
+    <nav th:fragment="main_menu" class="navbar navbar-expand-md sticky-top navbar-dark bg-secondary p-0">
+
+            <div class="container-fluid">
+
+                <button class="btn btn-secondary text-nowrap me-2"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#sideMenu"
+                        aria-controls="sideMenu">
+                    ☰ підрозділи
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"> <a class="nav-link active" aria-current="page" href="/">home</a> </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/akt-accept-transfer/new_app_form" title="новий акт приймання-передачі">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-seam-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003zM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461z"/>
+                                </svg>
+                            </a> </li>
+
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="/akt-accept-transfer/new_app_form" title="створити новий акт приймання-передачі">-->
+<!--                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-seam" viewBox="0 0 16 16">-->
+<!--                                    <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM2.5 2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5z"/>-->
+<!--                                </svg>-->
+<!--                            </a>-->
+<!--                        </li>-->
+
+                        <li class="nav-item"> <a class="nav-link" href="/new_invoice_form?doc_type=накладна" title="нова накладна вимога">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                                <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"/>
+                                <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                        </a> </li>
+
+                        <li class="nav-item"> <a id="newAtcBtn" class ="nav-link" data-url="/atc/new-atc-form-popup">+ атс</a> </li>
+
+                        <li class="nav-item"> <a class="nav-link" href="/new_card_form?doc_type=картка" title="нова картка майна">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                                <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+                            </svg>
+                        </a> </li>
+                    </ul>
+
+                    <!--------------------------------------------------------------------------------------------------------------[ drop menu - документи ]-->
+                    <div class="collapse navbar-collapse" id="navbarNavDarkDropdownDocs">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    документи
+                                </button>
+                                <ul class="dropdown-menu">
+<!--                                    <li> <a class="dropdown-item" href="/cards">картки</a></li>-->
+                                    <li> <a class="dropdown-item d-flex align-items-center justify-content-between" href="/cards/list">
+                                        <span>картки </span>
+                                        <span> <i class="bi bi-caret-right-fill ms-1"></i> </span>
+                                    </a></li>
+
+                                    <li> <a class="dropdown-item d-flex align-items-center justify-content-between" href="/docs">
+                                        <span>накладні</span>
+                                        <span> <i class="bi bi-caret-right-fill ms-1"></i> </span>
+                                    </a></li>
+
+                                    <li> <a class="dropdown-item" href="/akt-accept-transfer/list">акт прийому передачі</a></li>
+                                    <li> <a class="dropdown-item d-flex justify-content-between" href="/aru/list">
+                                        <span>акт закладнання/вилучення</span>
+                                        <span> <i class="bi bi-caret-right-fill ms-1"></i> </span>
+                                    </a></li>
+                                    <li> <a class="dropdown-item" href="/atc/list">
+                                        <i class="bi bi-box-arrow-right me-2"></i> акт технічного стану
+                                    </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--------------------------------------------------------------------------------------------------------------[ drop menu - техніка ]-->
+                    <div class="collapse navbar-collapse" id="navbarNavDarkDropdownUnits">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">майно</button>
+                                <ul class="dropdown-menu">
+                                    <li> <a class="dropdown-item" style="cursor: default;" href="№">техніка</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--------------------------------------------------------------------------------------------------------------[ drop menu - settings ]-->
+                    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    &#9881; налаштування
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li> <a class="dropdown-item" style="cursor: default;" href="/settings/deps">підрозділи</a></li>
+                                    <li> <a class="dropdown-item" href="/settings/deps_types">типи підрозділів</a></li>
+                                    <li> <a class="dropdown-item" href="/settings/military_objects">об'єкти</a></li>
+                                    <li> <a class="dropdown-item" href="/settings/denominations">найменування</a></li>
+                                    <li> <a class="dropdown-item" href="/settings/nomenclatures">номенклатури</a></li>
+                                    <li> <a class="dropdown-item" href="/settings/suppliers_list">постачальники</a></li>
+                                    <li> <a class="dropdown-item" href="/settings/docs_list">документи</a></li>
+                                    <li> <a class="dropdown-item" href="/settings/shtat">штат</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!---------------------------------------------------------------------[ drop menu - new docs form ]-->
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdownNewDocs">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">новий документ</button>
+<!--                            -->
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item open-popup" style="cursor: default;"
+                                       href="/atc/new-atc-form-popup" data-url="/atc/new-atc-form-popup">
+                                        <i class="bi bi-file-earmark-plus m-0 fs-5"></i> атс
+                                    </a>
+                                </li>
+                                <li> <a class="dropdown-item" href="/atc/new-invoice-form-popup"> <i class="bi bi-file-earmark-plus m-0 fs-5"></i> накладна</a> </li>
+                                <li> <a class="dropdown-item" href="/atc/new-app-form-popup"><i class="bi bi-file-earmark-plus m-0 fs-5"></i> апп</a> </li>
+                                <li> <a class="dropdown-item" href="/atc/new-card-form-popup"><i class="bi bi-file-earmark-plus m-0 fs-5"></i> картка</a> </li>
+                                <li> <a class="dropdown-item" href="/aru/new-aru-form-popup"><i class="bi bi-file-earmark-plus m-0 fs-5"></i> акт закладання</a> </li>
+                                <li><hr class="dropdown-divider"></li>
+<!--                                <li th:each="document : ${documentsTypes}">-->
+<!--                                    <a class="dropdown-item" href="/" th:text="${document.title}"> </a>-->
+<!--                                </li>-->
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <input type="text" placeholder="пошук" disabled>
+                    <button type="button" disabled>&#128269;</button>
+                </div>
+            </div>
+    </nav>
+
+<div th:fragment="sidebar"
+     class="offcanvas offcanvas-start"
+     tabindex="-1"
+     id="sideMenu">
+
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">
+            Menu
+        </h5>
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas">
+        </button>
+    </div>
+
+    <div class="offcanvas-body p-0">
+
+        <div class="list-group list-group-flush">
+
+            <!-- Simple item -->
+            <a th:href="@{/}"
+               class="list-group-item list-group-item-action">
+                🏠 Home
+            </a>
+
+
+            <!-- Parent item -->
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+               data-bs-toggle="collapse"
+               href="#warehouseMenu"
+               role="button"
+               aria-expanded="false"
+               aria-controls="warehouseMenu">
+
+                <span>📦 Warehouse</span>
+
+                <span>▾</span>
+            </a>
+
+            <!-- Submenu -->
+            <div class="collapse" id="warehouseMenu">
+
+                <a th:href="@{/warehouse/products}"
+                   class="list-group-item list-group-item-action ps-5">
+                    Products
+                </a>
+
+                <a th:href="@{/warehouse/movements}"
+                   class="list-group-item list-group-item-action ps-5">
+                    Movements
+                </a>
+
+                <a th:href="@{/warehouse/inventory}"
+                   class="list-group-item list-group-item-action ps-5">
+                    Inventory
+                </a>
+
+            </div>
+
+
+            <!-- Another parent -->
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+               data-bs-toggle="collapse"
+               href="#documentsMenu"
+               role="button"
+               aria-expanded="false"
+               aria-controls="documentsMenu">
+
+                <span>📄 Documents</span>
+
+                <span>▾</span>
+            </a>
+
+            <!-- Submenu -->
+            <div class="collapse" id="documentsMenu">
+
+                <a th:href="@{/documents}"
+                   class="list-group-item list-group-item-action ps-5">
+                    All documents
+                </a>
+
+                <a th:href="@{/documents/incoming}"
+                   class="list-group-item list-group-item-action ps-5">
+                    Incoming
+                </a>
+
+                <a th:href="@{/documents/outgoing}"
+                   class="list-group-item list-group-item-action ps-5">
+                    Outgoing
+                </a>
+
+            </div>
+
+
+            <!-- Simple item -->
+            <a th:href="@{/settings}"
+               class="list-group-item list-group-item-action">
+                ⚙️ Settings
+            </a>
+
+        </div>
+
+    </div>
+</div>
+
+<!--------------------------------------------------------------------------------------[ settings vertical menu ]----->
+<div th:fragment="settings_vertical_menu" style="border: 0px solid green; height: 700px; ">
+    <div class="list-group">
+           <a href="/settings/deps" class="list-group-item list-group-item-action">підрозділи</a>
+           <a href="/settings/denominations" class="list-group-item list-group-item-action">найменування</a>
+           <a href="/settings/military_objects" class="list-group-item list-group-item-action disabled">об'єкти</a>
+           <a href="/settings/suppliers_list" class="list-group-item list-group-item-action">постачальники</a>
+           <a href="/settings/docs_list" class="list-group-item list-group-item-action">документи</a>
+    </div>
+</div>
+
+<div th:fragment="settings_vertical_menu_01" class="sidebar">
+    <nav class="nav flex-column">
+        <a th:classappend="${activeMenu == 'deps' ? 'nav-link bg-secondary text-white' : 'nav-link'}" href="/settings/deps">підрозділи</a>
+        <a class="nav-link" href="/settings/deps_types">типи підрозділів</a>
+        <a class="nav-link" href="/settings/military_objects">об'єкти</a>
+        <a class="nav-link" href="/settings/denominations">найменування</a>
+        <a class="nav-link" href="/settings/nomenclatures">номенклатури</a>
+        <a class="nav-link" href="/settings/suppliers_list">постачальники</a>
+        <a class="nav-link" href="/settings/docs_list">документи</a>
+        <a th:classappend="${activeMenu == 'shtat' ? 'nav-link bg-secondary text-white' : 'nav-link'}" th:href="@{/settings/shtat}">штат</a>
+    </nav>
+</div>
+
+<!-------------------------------------------------------------------------------[ modal div popup add new APP ]------->
+<div th:fragment="modalDivNewAPP(new_app, dep_list, doc_type)" class="modal-div" id="myModal">
+    <form method="post" th:object="${new_app}" th:action="@{/akt-accept-transfer/save_new}">
+
+
+        <div class="modal-div-content">
+            <div style="background-color:rgba(7,15,241,0.93); color: white; display: flex; align-items: center">
+                <input type="text" id="document_type" th:value="${doc_type}">
+                <input type="text" id="id_doc_type" th:field="*{documentsType}">
+                <span style="width: 100%; padding: 10px" th:text="${'Новий ' + doc_type}"></span>
+                <span class="close-div">&times;</span>
+
+            </div>
+
+            <div class="container-fluid">
+                <div class="row g-3">
+
+                    <div class="col">
+                        <label class="col-form-label-sm">номер документа:</label>
+                        <div class="input-group mb-3">
+                            <input id="field_new_document_number" type="text" class="form-control" placeholder="номер документа" th:field="*{number}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="getDocsLastNumber(this, doc_type)">№</button>
+<!--                            <input id="field_doc_title" type="text" value="document_akt_acceptance_transfer">-->
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label for="data_doc" class="col-form-label-sm">дата документа:</label>
+                        <input type="datetime-local" id="data_doc" class="form-control" th:field="*{documentDate}">
+                        <script>
+                            flatpickr("#data_doc", {
+                                enableTime: true, time_24hr: true, dateFormat: "d.m.Y H:i", defaultDate: new Date(),
+                                onChange: function (selectedDates, dateStr, instance) { document.getElementById('data_doc_oper').value = dateStr;}
+                            }); </script>
+                    </div>
+
+                    <div class="col">
+                        <label for="data_doc_oper" class="col-form-label-sm">дата операції:</label>
+                        <input type="text" id="data_doc_oper" class="form-control" th:field="*{operationDate}">
+                        <script> flatpickr("#data_doc_oper", {enableTime: true, time_24hr: true, dateFormat: "d.m.Y H:i" }); </script>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6 p-1">
+
+                        <script th:inline="javascript"> var departList = /*[[${dep_list}]]*/ []; </script>
+
+                        <label class="col-form-label-sm" for="sender_page">вантажовідправник:</label>
+                        <script> $(document).ready(function () { $('#sender_page').select2( {width:'70%'} ); }); </script>
+                        <div class="input-group">
+
+                            <select id="sender_page" name="sender_ids" onchange="getRespPersone(this, sender_name, departList)" >
+                                <option value=" "></option>
+                                <option
+                                        th:each="dep : ${dep_list}"
+                                        th:value="${dep.getIdDep() + '_' + (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                                        th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '')}"
+                                        th:data-dep = "${dep.depsShortName}"
+                                        th:data-subdep = "${(dep.subDepsShortName != null ? dep.subDepsShortName : '')}">
+                                </option>
+                            </select>
+                            <button type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, sender_page, '71_0')">П Склад</button>
+                            <button type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, sender_page,'72_0')">БТ Склад</button>
+
+                        </div>
+                        <div>
+                            <label class="col-form-label-sm" for="sender_name">відповідальна особа:</label>
+                            <input id="sender_name" type="text" class="form-control" th:field="*{responsiblePersonSender}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 p-1">
+                        <label class="col-form-label-sm" for="receiver_page">вантажоодержувач:</label>
+                        <div class="input-group">
+
+                            <select id="receiver_page" name="receiver_ids" onchange="getRespPersone(this, receiver_name, departList)">
+                                <option value=""></option>
+                                <option
+                                        th:each="dep : ${dep_list}"
+                                        th:value="${dep.getIdDep()+ '_'+  (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                                        th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '') }"
+                                        th:data-dep = "${dep.depsShortName}"
+                                        th:data-subdep = "${(dep.subDepsShortName != null ? dep.subDepsShortName : '')}">
+                                </option>
+                            </select>
+                            <button id="btn_receiver_ps" type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, receiver_page, '71_0')">П Склад</button>
+                            <button id="btn_receiver_bts" type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, receiver_page,'72_0')">БТ Склад</button>
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+
+                                function formatOption(option) {
+                                    if (!option.id) {
+                                        return option.text;
+                                    }
+
+                                    const secondColumn = $(option.element).data('subdep');
+
+                                    return $(`
+                                                        <div style="display:grid; grid-template-columns: 150px 1fr;">
+                                                            <span>${option.text}</span>
+                                                            <span style="color:#555555;">${secondColumn ?? ''}</span>
+                                                        </div>
+                                                    `);
+                                }
+
+                                $('#receiver_page').select2({
+                                    width: '70%',
+                                    templateResult: formatOption,
+                                    templateSelection: function(option) {
+                                        return option.text; // selected value remains "val1"
+                                    }
+                                });
+
+                            });
+                        </script>
+
+                        <label class="col-form-label-sm">відповідальна особа:</label>
+                        <input id="receiver_name" type="text" class="form-control" th:field="*{responsiblePersonReceiver}">
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col p-1">
+                            <label class="col-form-label-sm" for="doc_comments">примітка:</label>
+                            <input type="text" class="form-control" id="doc_comments" value="примітка" th:field="*{comments}">
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="background-color: rgba(7,15,241,0.29); display: flex; justify-content: center; height: 60px; padding: 10px; gap: 20px">
+                <input type="submit" class="form-control w-25" value="зберегти">
+                <input type="button" class="form-control w-25" value="очистити все" disabled>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--[ TODO ]-------------------------------------------------------------------------------[ atc modal div ]----------->
+
+
+
+<!-------------------------------------------------------------------------------[ CARD modal div popup edit form ]----->
+<div th:fragment="div-popup-card-edit-form(card)" class="modal-div" id="modalCard">
+
+
+</div>

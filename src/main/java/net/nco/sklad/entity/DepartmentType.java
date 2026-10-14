@@ -1,0 +1,51 @@
+package net.nco.sklad.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "departments_types")
+public class DepartmentType {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String nameUA;
+
+    private String nameEnglish;
+
+    private String description;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNameUA() {
+        return nameUA;
+    }
+
+    public void setNameUA(String nameUA) {
+        this.nameUA = nameUA;
+    }
+
+    public String getNameEnglish() {
+        return nameEnglish;
+    }
+
+    public void setNameEnglish(String nameEnglish) {
+        this.nameEnglish = nameEnglish;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+}

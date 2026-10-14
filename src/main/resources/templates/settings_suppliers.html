@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    <script src="/js/bootstrap.bundle.min.js"> </script>
+    <script src="/js/jquery-4.0.0.min.js"> </script>
+    <script src="/js/script.js"> </script>
+</head>
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+
+
+<div th:replace="~{fragments.html :: settings_vertical_menu_01}"> </div>
+
+    <div class="content_settings_div">
+
+            <div class="navbar navbar-light bg-light mb-2">
+                <a class="link-offset-2-hover" href="">новий постачальник</a>
+            </div>
+
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>№ з/п</th>
+                        <th>найменування</th>
+                        <th>місцезнаходження</th>
+                        <th>операції</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr th:each="suppliers : ${suppliers_list}">
+                        <td style="text-align: center"><span th:text="${suppliers.getId()}"></span></td>
+                        <td><span th:text="${suppliers.getName()}"></span></td>
+                        <td><span th:text="${suppliers.getCity()}"></span></td>
+                        <td>
+                            <div class="container-buttons">
+                                <button id="edit" disabled>&#9998;</button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

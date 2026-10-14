@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>номенклатури</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+</head>
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+
+
+<div th:replace="~{fragments.html :: settings_vertical_menu_01}"> </div>
+
+    <div class="content_settings_div">
+
+            <div class="navbar navbar-light bg-light mb-2">
+                <form th:action="@{/settings/nomenclatures/save_new_nomenclature}" method="post" th:object="${new_nomenclature}">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon4">Найменування:</span>
+                        <select class="form-control" aria-describedby="basic-addon4" name="denom_id" id="denominationList">
+                            <option>---</option>
+                            <option th:each="denom: ${denom_list}"
+                                    th:value="${denom.id}"
+                                    th:text="${denom.denominationName + ' > ' + denom.parentObjMil.objectName}">
+                            </option>
+                        </select>
+                        <script>
+                            $('#denominationList').select2()
+                        </script>
+
+                        <span class="input-group-text" id="basic-addon5">Номенклатура:</span>
+                        <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1" th:field="*{nomenclatureName}">
+                        <span class="input-group-text" id="basic-addon6">Опис:</span>
+                        <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon2" th:field="*{comments}">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon3" >Додати</button>
+                    </div>
+                </form>
+            </div>
+
+
+        <div class="table-container">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>найменування</th>
+                        <th>номенклатура</th>
+                        <th>об'єкт</th>
+                        <th>операції</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr th:each="nomencls : ${nomencl_list}">
+                        <td style="text-align: center" th:text="${nomencls.id}"></td>
+                        <td th:text="${nomencls.getDenomination().getDenominationName()}"></td>
+                        <td th:text="${nomencls.nomenclatureName}"></td>
+                        <td th:text="${nomencls.denomination.parentObjMil.objectName}"></td>
+                        <td>
+                            <div class="container-buttons">
+                                <button id="edit" disabled>&#9998;</button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
