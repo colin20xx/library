@@ -525,11 +525,13 @@ function checkIfDepExist(element) {
 }// end func
 
 function checkDocNumber(element) {
-    // console.log('number requesting:' + element.value);
-    if (element.value.length > 0) {
-        buttonObj = document.getElementById('inputDocSubmit');
+    buttonObj = document.getElementById('inputDocSubmit');
+
+    let numberStr = element.value;
+
+    if (numberStr.length > 0){
         id_doc_type = document.getElementById('id_doc_type');
-        doc_title = document.getElementById('field_doc_title');
+        //doc_title = document.getElementById('field_doc_title');
 
         $.ajax({
 
@@ -538,27 +540,22 @@ function checkDocNumber(element) {
             data: {id_doc_type: id_doc_type.value, doc_number: element.value},
 
             success: function (response) {
-                // console.log(response);
                 if (response === true) {
                     element.style.backgroundColor = "red"
-                    // inputDocSubmit.disabled = false;
                     buttonObj.disabled = true;
                 } else {
                     element.style.backgroundColor = "#e6ffee"
                     buttonObj.disabled = false;
-
                 }
             },
-            error: function (xhr, status, error) {
-                console.error("Error: " + error)
-            }
+            error: function (xhr, status, error) { console.error("Error: " + error) }
         });
 
     } else {
-        element.style.backgroundColor = "white"
+        console.log('element:', element.value);
+        element.style.backgroundColor = "white";
         buttonObj.disabled = true;
     }
-
 }// end function
 
 function checkDocNumberAndDocTypeSelected(element) {

@@ -175,16 +175,18 @@
                             <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">новий документ</button>
 <!--                            -->
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item open-popup" style="cursor: default;"
+                                <li> <a class="dropdown-item open-popup" style="cursor: default;"
                                        href="/atc/new-atc-form-popup" data-url="/atc/new-atc-form-popup">
-                                        <i class="bi bi-file-earmark-plus m-0 fs-5"></i> атс
-                                    </a>
-                                </li>
+                                        <i class="bi bi-file-earmark-plus m-0 fs-5"></i> атс </a> </li>
+
                                 <li> <a class="dropdown-item" href="/atc/new-invoice-form-popup"> <i class="bi bi-file-earmark-plus m-0 fs-5"></i> накладна</a> </li>
                                 <li> <a class="dropdown-item" href="/atc/new-app-form-popup"><i class="bi bi-file-earmark-plus m-0 fs-5"></i> апп</a> </li>
                                 <li> <a class="dropdown-item" href="/atc/new-card-form-popup"><i class="bi bi-file-earmark-plus m-0 fs-5"></i> картка</a> </li>
-                                <li> <a class="dropdown-item" href="/aru/new-aru-form-popup"><i class="bi bi-file-earmark-plus m-0 fs-5"></i> акт закладання</a> </li>
+
+                                <li> <a class="dropdown-item open-popup" style="cursor: default"
+                                        href="/aru/new-aru-form-popup" data-url="/aru/new-aru-form-popup">
+                                    <i class="bi bi-file-earmark-plus m-0 fs-5"></i> акт закладання</a> </li>
+
                                 <li><hr class="dropdown-divider"></li>
 <!--                                <li th:each="document : ${documentsTypes}">-->
 <!--                                    <a class="dropdown-item" href="/" th:text="${document.title}"> </a>-->
@@ -193,7 +195,7 @@
                         </li>
                     </ul>
                 </div>
-
+                <!---------------------------------------------------------------------[ drop menu - search sub panel ]-->
                 <div class="collapse navbar-collapse">
                     <input type="text" placeholder="пошук" disabled>
                     <button type="button" disabled>&#128269;</button>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+  <div th:fragment="div-modal-new-aru">
+
+    <div class="modal-header bg-primary text-white p-2">
+      <h5 class="modal-title">Акт закладання (освіження)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <form th:action="@{/aru/save_new}" th:object="${temp_aru}" method="post">
+
+      <div class="modal-body">
+        <input type="hidden" id="id_doc_type" th:field="*{documentsType}">
+        <div class="row g-3">
+
+          <div class="col-md-2 p-1">
+            <label for="doc_num" class="col-form-label-sm">номер документа:</label>
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" id="doc_num" th:field="*{number}">
+              <button  class="btn btn-outline-secondary" type="button" onclick="getDocsLastNumber(this)">&#8470</button>
+            </div>
+          </div>
+          <div class="col-md-2 p-1">
+            <label for="doc_reg_num" class="col-form-label-sm">реєстраційний номер:</label>
+            <input type="text" class="form-control" id="doc_reg_num">
+          </div>
+
+          <div class="col-md-3 p-1">
+            <label for="data_doc" class="col-form-label-sm">дата документа:</label>
+            <input type="datetime-local" id="data_doc" class="form-control" th:field="*{documentDate}">
+          </div>
+
+          <div class="col-md-2 p-1">
+            <label for="data_doc_oper" class="col-form-label-sm">дата операції:</label>
+            <input type="text" id="data_doc_oper" class="form-control" th:field="*{operationDate}">
+          </div>
+
+          <div class="col-md-2 p-1"><div>
+            <label for="data_doc_oper" class="col-form-label-sm">дата дійсний до:</label>
+            <input type="text" id="data_doc_during" class="form-control" th:field="*{expiresAt}">
+          </div></div>
+        </div>
+
+        <div class="col p-1">
+          <label for="doc_reason" class="col-form-label-sm">підстава:</label>
+          <input type="text" class="form-control" id="doc_reason" th:field="*{reason}">
+        </div>
+
+        <div id="popupData" th:data-deps-list="${dep_list_json}"> </div>
+        <label class="col-form-label-sm" for="sender_page">підрозділ:</label>
+        <div class="input-group">
+          <select id="sender_page" name="sender_ids">
+            <option value=" "></option>
+            <option
+                    th:each="dep : ${dep_list}"
+                    th:value="${dep.getIdDep() + '_' + (dep.getIdSubDep() != null ? dep.getIdSubDep() : 0)}"
+                    th:text="${dep.getDepsShortName() +' '+ (dep.getSubDepsShortName()!=null ? dep.getSubDepsShortName() : '')}"
+                    th:data-dep = "${dep.depsShortName}"
+                    th:data-subdep = "${(dep.subDepsShortName != null ? dep.subDepsShortName : '')}">
+            </option>
+          </select>
+          <button type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, sender_page, '71_0')">П Склад</button>
+          <button type="button" style="height: 28px" class="btn btn-outline-secondary btn-sm" onclick="selectSklad(this, sender_page,'72_0')">Склад СНСО</button>
+        </div>
+        <div>
+          <label class="col-form-label-sm" for="sender_name">відповідальна особа:</label>
+          <input id="sender_name" type="text" class="form-control" th:field="*{responsiblePerson}" >
+        </div>
+
+        <div class="row g-3">
+          <div class="col p-1">
+            <label class="col-form-label-sm" for="doc_comments">примітка:</label>
+            <input type="text" class="form-control" id="doc_comments" value="примітка" th:field="*{comments}">
+            <p></p>
+          </div>
+        </div>
+      </div>
+<!---------------------------------------------------------------------------------------------------------[ footer ]-->
+      <div class="modal-footer justify-content-between">
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            не закривати поточну форму
+          </label>
+        </div>
+        <div>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Відміна</button>
+          <button id="inputDocSubmit" class="btn btn-primary">Зберегти</button>
+        </div>
+      </div>
+
+    </form>
+
+
+  </div>
+
+</body>
+</html>

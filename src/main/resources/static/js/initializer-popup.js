@@ -1,6 +1,8 @@
 export function InitializerPopup(){
 
-    document.getElementById("doc_num").addEventListener("input", checkDocNumber);
+    document.getElementById("doc_num").addEventListener("input", function (event){
+        checkDocNumber(event.target);
+    });
 
     const departList = JSON.parse(document.getElementById('popupData').dataset.depsList) ;
 

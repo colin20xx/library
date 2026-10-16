@@ -25,6 +25,7 @@ import java.util.List;
 @Controller
 public class DocsController {
 
+    private final AktOfRefreshmentUnitRepository aruRepository;
     private final AktTechConditionRepository aktTechConditionRepository;
     private SubDepRepository subDepRepository;
     private DocumentTypeRepository documentTypeRepository;
@@ -48,7 +49,8 @@ public class DocsController {
                           DocumentsRepository docsRepo,
                           SubDepRepository subDepRepository,
                           InvoiceRepository invcRepository,
-                          JdbcTemplate jdbcTemp, AktTechConditionRepository aktTechConditionRepository) {
+                          JdbcTemplate jdbcTemp, AktTechConditionRepository aktTechConditionRepository,
+                          AktOfRefreshmentUnitRepository aruRepo) {
         this.documentTypeRepository = docRepository;
         this.supplierRepository = suppRepository;
         this.departmentRepository = depRepository;
@@ -56,6 +58,7 @@ public class DocsController {
         this.invoiceRepository = invcRepository;
         this.jdbcTemplate = jdbcTemp;
         this.aktTechConditionRepository = aktTechConditionRepository;
+        this.aruRepository = aruRepo;
     }
 
     @GetMapping("/docs")
@@ -100,10 +103,9 @@ public class DocsController {
         switch (idDocType) {
             case 1: tempBoolean = invoiceRepository.existsByNumber(docNumber) ; break;
             case 7: tempBoolean = aktTechConditionRepository.existsByNumber(docNumber) ; break;
+            case 15: tempBoolean = aruRepository.existsByNumber(docNumber) ; break;
             default: tempBoolean = false;
         }
-//        tempLong = documentsRepository.countNativeByNumberAndCond(docNumber, idDocType);
-
         return tempBoolean;
     }
 
