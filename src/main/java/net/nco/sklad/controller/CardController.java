@@ -4,10 +4,7 @@ import net.nco.sklad.common.CardStatus;
 import net.nco.sklad.dto.CardDTO;
 import net.nco.sklad.dto.CardMovementDTO;
 import net.nco.sklad.entity.documents.Card;
-import net.nco.sklad.repository.CardRepository;
-import net.nco.sklad.repository.DenominationRepository;
-import net.nco.sklad.repository.NomenclatureRepository;
-import net.nco.sklad.repository.ObjectsMilitaryRepository;
+import net.nco.sklad.repository.*;
 import net.nco.sklad.services.CardsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +24,7 @@ import java.util.List;
 public class CardController {
 
     private final ObjectsMilitaryRepository objectsMilitaryRepository;
+    private final DepartmentRepository departmentRepository;
     private CardRepository cardRepository;
     private DenominationRepository denominationRepository;
     private NomenclatureRepository nomenclatureRepository;
@@ -34,12 +32,13 @@ public class CardController {
     private Long tempCardNumber;
     private ArrayList<CardMovementDTO> arrListCardMovement;
 
-    public CardController(CardRepository cardRepo, DenominationRepository denomRepo, NomenclatureRepository nomRepo, ObjectsMilitaryRepository objectsMilitaryRepo, CardsService cardsService) {
+    public CardController(CardRepository cardRepo, DenominationRepository denomRepo, NomenclatureRepository nomRepo, ObjectsMilitaryRepository objectsMilitaryRepo, CardsService cardsService, DepartmentRepository departmentRepository) {
         this.cardRepository = cardRepo;
         this.cardsService = cardsService;
         this.denominationRepository = denomRepo;
         this.nomenclatureRepository = nomRepo;
         this.objectsMilitaryRepository = objectsMilitaryRepo;
+        this.departmentRepository = departmentRepository;
     }
 
     @GetMapping("/cards/search")
@@ -66,6 +65,8 @@ public class CardController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalElements", totalCards);
+
+        model.addAttribute("deps_list", departmentRepository.findByOrderBySortingNumberAsc());
 
         return "cards/cards_common_list";
     }

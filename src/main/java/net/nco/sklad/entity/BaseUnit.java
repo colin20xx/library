@@ -11,14 +11,14 @@ public class BaseUnit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "number", nullable = false)
-    private String number;
+    @Column(nullable = false)
+    private String serialNumber;
 
     private int category;
 
     private int year;
 
-    @Column(name = "created_at",nullable = false)
+    @Column(name = "created_at", nullable = false)
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime createdAt;
 
@@ -40,12 +40,12 @@ public class BaseUnit {
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public int getYear() {
