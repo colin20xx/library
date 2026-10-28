@@ -77,19 +77,19 @@ public class InvoiceMovementsController {
             card.setQtyDEPS(invoiceMov.getQuantity().doubleValue()*(-1));
 
             card.setCardDateTime(LocalDateTime.now());
-            card.setDenomination(denominationRepository.getReferenceById(invoiceMov.getIdDemonination()));
-            card.setNomenclature(nomenclatureRepository.getReferenceById(invoiceMov.getIdNomenclature()));
+            card.setDenomination(invoiceMov.getDenomination());
+            card.setNomenclature(invoiceMov.getNomenclature());
             //cardRepository.save(card);
 
             //invoiceMov.addCard(card);
             //invoiceMov.setCreatedAt(LocalDateTime.now());
 
         }else { //card exists
+            //TODO if card exist, why setting denomination and nomenclature?
+//            invoiceMov.setDenomination(denominationRepository.getReferenceById(invoiceMov.getIdDemonination()));
+//            System.out.println("-----------------------> " + invoiceMov.getIdNomenclature());
+//            invoiceMov.setNomenclature(nomenclatureRepository.getReferenceById(invoiceMov.getIdNomenclature()));
             invoiceMov.setCreatedAt(LocalDateTime.now());
-
-            invoiceMov.setDenomination(denominationRepository.getReferenceById(invoiceMov.getIdDemonination()));
-            System.out.println("-----------------------> " + invoiceMov.getIdNomenclature());
-            invoiceMov.setNomenclature(nomenclatureRepository.getReferenceById(invoiceMov.getIdNomenclature()));
 
             card = cardRepository.getReferenceById(invoiceMov.getIdCard());
 

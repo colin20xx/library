@@ -4,9 +4,9 @@ public class NomenclatureDTO {
 
     private Long id;
     private String title;
-    private Integer idDenom;
+    private Long idDenom;
 
-    public NomenclatureDTO(Long id, String title, Integer idDenom) {
+    public NomenclatureDTO(Long id, String title, Long idDenom) {
         this.id = id;
         this.title = title;
         this.idDenom = idDenom;
@@ -28,11 +28,11 @@ public class NomenclatureDTO {
         this.title = title;
     }
 
-    public Integer getIdDenom() {
+    public Long getIdDenom() {
         return idDenom;
     }
 
-    public void setIdDenom(Integer idDenom) {
+    public void setIdDenom(Long idDenom) {
         this.idDenom = idDenom;
     }
 

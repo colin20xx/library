@@ -1,0 +1,71 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<!--class="modal-div" id="modal-div-01"-->
+    <div th:fragment="modalDivAddNumericUnits" style="height: 99%">
+
+        <div class="container-fluid" style="height: 95%">
+            <div class="row m-1 p-1">
+                <div class="col-5">
+                    <!-------------------------------------------------------------------------[ left side search panel ]-->
+                    <div class="row p-1">
+                        <label for="field-input-serial-number"><b>заводський/серійний номер:</b></label>
+                        <input id="field-input-serial-number" th:data-search-url="@{/unit/search-by-serial-number}" class="form-control field-input-serial-number" type="text" value="">
+                    </div>
+
+                    <div class="row p-1">
+                        <table class="table table-hover">
+                            <thead class="table-info small">
+                                <tr>
+                                    <th>назва</th>
+                                    <th style="width: 100px; text-align: center">номер</th>
+                                    <th style="width: 50px; text-align: center">рік</th>
+                                    <th style="width: 50px; text-align: center">кат</th>
+                                    <th style="width: 60px; text-align: center">дії</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tableBodyList">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-7">
+
+    <!------------------------------------------------------------------------------------[ right side - temp table ]-->
+                    <div class="row p-1">
+                        <label for="field-input-serial-number1">заводський/серійний номер:</label>
+                        <input id="field-input-serial-number1" class="form-control" type="text" value="">
+                    </div>
+
+                    <div class="row p-1">
+                        <table class="table table-hover table-bordered">
+                            <thead class="table-info small">
+                            <tr>
+                                <th style="width: 30px; text-align: center">№</th>
+                                <th>назва</th>
+                                <th style="width: 100px; text-align: center">номер</th>
+                                <th style="width: 50px; text-align: center">рік</th>
+                                <th style="width: 50px; text-align: center">кат</th>
+                                <th style="width: 60px; text-align: center">дії</th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="tempTableSearch" class="small">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-1">
+            <label for="checkbox-not-close-div">
+                <input type="checkbox" id="checkbox-not-close-div"> не закривати форму
+            </label>
+        </div>
+    </div>
+
+</body>
+</html>

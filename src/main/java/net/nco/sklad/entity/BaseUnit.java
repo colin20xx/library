@@ -1,6 +1,8 @@
 package net.nco.sklad.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -14,9 +16,12 @@ public class BaseUnit {
     @Column(nullable = false)
     private String serialNumber;
 
+    @Min(1)
+    @Max(5)
     private int category;
 
-    private int year;
+    @Column(nullable = true)
+    private int unitYear;
 
     @Column(name = "created_at", nullable = false)
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
@@ -48,12 +53,12 @@ public class BaseUnit {
         this.serialNumber = serialNumber;
     }
 
-    public int getYear() {
-        return year;
+    public int getUnitYear() {
+        return unitYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setUnitYear(int year) {
+        this.unitYear = year;
     }
 
     public LocalDateTime getCreatedAt() {

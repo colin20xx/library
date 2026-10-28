@@ -21,6 +21,9 @@ public class DocumentsType {
     @Column(name = "eng_title", nullable = true)
     private String englishTitle;
 
+    @Column(name = "eng_short_title", nullable = true)
+    private String englishShortTitle;
+
     @Column(name = "card_in", nullable = true)
     private Boolean cardIn = false;
 
@@ -104,5 +107,13 @@ public class DocumentsType {
 
     public void setTitleShort(String titleShort) {
         this.titleShort = titleShort;
+    }
+
+    public String getEnglishShortTitle() {
+        return englishShortTitle;
+    }
+
+    public void setEnglishShortTitle(String englishShortTitle) {
+        this.englishShortTitle = englishShortTitle;
     }
 }

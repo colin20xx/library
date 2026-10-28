@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>номерне майно</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+    <style>
+        .header-two {
+            position: fixed; /* Fixes element relative to the viewport */
+            top: 43px; /* Positions it below Div One (adjust based on Div One's height + margin) */
+            left: 0;
+            right: 0;
+            /*background-color: #999;*/
+            color: white;
+            padding: 5px;
+            z-index: 9; /* Slightly lower z-index than div one, but still high */
+            height: 100px; /* Example fixed height */
+            border: 1px solid #0a3622;
+            margin: 5px;
+            /*background-color: #c0c0c0;*/
+        }
+
+        .content-scrollable {
+            /* Pushes content below the fixed headers. Adjust the top margin to match the combined height of the fixed headers plus any desired gap. */
+            margin-top: 110px; /* (50px + 40px + some spacing) */
+
+            /* Sets the height of the content div to fill the *remaining* viewport space dynamically.
+            calc(100vh - 130px) ensures it fits perfectly below the headers. */
+            /*height: calc(100vh - 200px);*/
+
+            overflow-y: visible; /* Adds a vertical scrollbar only when content overflows */
+            padding: 5px;
+            box-sizing: border-box; /* Ensures padding doesn't add extra height */
+            /*background-color: #f4f4f4;*/
+            /*border: 1px solid darkred;*/
+
+        }
+    </style>
+</head>
+
+    <body data-page="units-common-list">
+
+        <nav th:replace="~{fragments.html :: main_menu}"> </nav>
+        <div th:replace="~{fragments/fragment-modal-global :: global-div-form}"></div>
+        <!----------------------------------------------------------------------------------------------------[ search panel]-->
+        <div class="header-two">
+            <input type="text" placeholder="номер" class="searchField" id="field_search_doc_number">
+            <input type="text" placeholder="вантажовідправник" class="searchField" id="field_sender" disabled>
+            <input type="text" placeholder="вантажоодержувач" class="searchField" id="field_receiver" disabled>
+            <input type="hidden" id="field_search_url" value="/invoice/search">
+            <button onclick="clearSearchFields()">очистити</button>
+        </div>
+        <!------------------------------------------------------------------------------------------------------[ body panel]-->
+        <div class="content-scrollable">
+
+            <table class="table table-hover table-bordered table-sm w-100">
+                <thead class="table-info">
+                    <tr>
+                        <th style="text-align: center; width: 30px">ID</th>
+
+                        <th style="text-align: center; width: 60px">№</th>
+                        <th style="vertical-align: top">найменування</th>
+                        <th style="vertical-align: top; text-align: center; width: 150px">номенклатура</th>
+                        <th style="text-align: center; width: 100px">номер</th>
+                        <th style="text-align: center; width: 100px">категорія</th>
+                        <th style="text-align: center; width: 70px">рік</th>
+                        <th style="text-align: center; width: 100px">ціна</th>
+                        <th style="text-align: center; width: 150px">підрозділ</th>
+                        <th style="text-align: center;">примітка</th>
+                        <th style="width: 100px; text-align: center">дії</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBodyList">
+                    <tr th:each="unit, stat : ${units_list}">
+                        <td style="font-size: small" th:text="${unit.id}"> </td>
+                        <td th:text="${stat.index + 1}" class="p-0 text-center"> </td>
+                        <td style="vertical-align: top" th:text="${unit.denomination}"> </td>
+                        <td style="text-align: center" th:text="${unit.nomenclatureID != null ? unit.nomenclature : '-'}"> </td>
+                        <td style="text-align: center;">
+                            <a th:href="${'/unit/' + unit.id}" th:text="${unit.serialNumber}" class="link-primary link-offset-2 p-0 m-0 text-center"></a>
+                        </td>
+                        <td style="text-align: center;" th:text="${unit.category}" > </td>
+                        <td style="text-align: center;" th:text="${unit.year}" > </td>
+                        <td style="text-align: right;" th:text="${unit.price}"></td>
+                        <td style="text-align: center" th:text="${unit.currentDepartment}"></td>
+                        <td th:text="${unit.comment}" > </td>
+
+                        <td>
+                            <div class="input-group gap-1">
+
+                                <button class="btn btn-outline-info btn-sm flex-fill" th:data-url="@{/unit/{id}(id=${unit.id})}"
+                                        th:data-redir-url="@{/unit/list}"
+                                        onclick="">&#9998;</button>
+
+                                <button class="btn btn-outline-danger btn-sm flex-fill"
+                                        th:data-url="@{/unit/{id}(id=${unit.id})}"
+                                        th:data-redir-url="@{/unit/list}"
+                                        onclick="deleteItem(this)">DEL</button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+</html>

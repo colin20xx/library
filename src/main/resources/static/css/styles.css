@@ -1,3 +1,5 @@
+
+.modal-wide { max-width: 90%; width: calc(100% - 2rem);}
 .span-width-150{width: 150px}
 .span-width-200{width: 200px}
 

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import net.nco.sklad.entity.Denomination;
 import net.nco.sklad.entity.Nomenclature;
+import net.nco.sklad.entity.Unit;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -53,6 +54,10 @@ public class AktAcceptanceTransferUnits {
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
     private Set<Card> cards = new HashSet<Card>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Unit unit;
 
     public Long getId() {
         return id;
@@ -137,5 +142,13 @@ public class AktAcceptanceTransferUnits {
 
     public void setNomenclature(Nomenclature nomenclature) {
         this.nomenclature = nomenclature;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 }//end class

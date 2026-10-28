@@ -29,14 +29,14 @@ public class NomenclatureController {
     }
 
     @GetMapping("/getNomenclatureListByIdDenomination")
-    public ResponseEntity<ArrayList<NomenclatureDTO>> getNomenclatureListByIdDenomination(@RequestParam int idDenom){
+    public ResponseEntity<ArrayList<NomenclatureDTO>> getNomenclatureListByIdDenomination(@RequestParam Long idDenom){
         //Denomination denomTemp = denominationRepository.getReferenceById(idDenom);
-        ArrayList<NomenclatureDTO> arrayList = (ArrayList<NomenclatureDTO>) nomenclatureRepository.findAllNomenclaturesByDenominationId(idDenom);
-        return ResponseEntity.ok(arrayList);
+//        ArrayList<NomenclatureDTO> arrayList = nomenclatureRepository.findAllNomenclaturesByDenominationId(idDenom);
+        return ResponseEntity.ok(nomenclatureRepository.findAllNomenclaturesByDenominationId(idDenom));
     }
 
     @GetMapping("nomenclatures_list")
-    public ResponseEntity<List<NomenclatureDTO>> getNomenclatureList(@RequestParam int idDenom){
+    public ResponseEntity<List<NomenclatureDTO>> getNomenclatureList(@RequestParam Long idDenom){
         System.out.println("id denom: " + idDenom);
         return ResponseEntity.ok(nomenclatureRepository.findAllNomenclaturesByDenominationId(idDenom));
 

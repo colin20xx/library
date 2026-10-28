@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import net.nco.sklad.entity.Denomination;
 import net.nco.sklad.entity.Nomenclature;
+import net.nco.sklad.entity.Unit;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,11 +21,11 @@ public class InvoiceMovement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "denom_id")
-    private Integer idDemonination;
-
-    @Column(name = "nomencl_id")
-    private long idNomenclature;
+//    @Column(name = "denom_id")
+//    private Integer idDemonination;
+//
+//    @Column(name = "nomencl_id")
+//    private long idNomenclature;
 
     @Column(name = "qty_bts", precision = 13, scale = 5, nullable = false)
     private BigDecimal qtyBTS;
@@ -35,8 +36,6 @@ public class InvoiceMovement {
     @Column(name = "quantity", precision = 13, scale = 5, nullable = false)
     private BigDecimal quantity;
 
-
-
     @Column(precision = 13, scale = 5, nullable = false)
     private BigDecimal price;
 
@@ -45,6 +44,7 @@ public class InvoiceMovement {
     @Max(5)
     private Integer category;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime operationDate;
@@ -68,6 +68,8 @@ public class InvoiceMovement {
     @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Unit unit;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
@@ -87,21 +89,21 @@ public class InvoiceMovement {
         this.id = id;
     }
 
-    public Integer getIdDemonination() {
-        return idDemonination;
-    }
-
-    public void setIdDemonination(Integer idDemonination) {
-        this.idDemonination = idDemonination;
-    }
-
-    public long getIdNomenclature() {
-        return idNomenclature;
-    }
-
-    public void setIdNomenclature(long idNomenclature) {
-        this.idNomenclature = idNomenclature;
-    }
+//    public Integer getIdDemonination() {
+//        return idDemonination;
+//    }
+//
+//    public void setIdDemonination(Integer idDemonination) {
+//        this.idDemonination = idDemonination;
+//    }
+//
+//    public long getIdNomenclature() {
+//        return idNomenclature;
+//    }
+//
+//    public void setIdNomenclature(long idNomenclature) {
+//        this.idNomenclature = idNomenclature;
+//    }
 
     public LocalDateTime getCommitedAt() {
         return commitedAt;
@@ -228,12 +230,18 @@ public class InvoiceMovement {
         this.quantity = quantity;
     }
 
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() {
         return "InvoiceMovement{" +
                 "id=" + id +
-                ", idDemonination=" + idDemonination +
-                ", idNomenclature=" + idNomenclature +
                 ", createdAt=" + createdAt +
                 ", operationDate=" + operationDate +
                 ", commitedAt=" + commitedAt +

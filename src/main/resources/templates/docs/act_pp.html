@@ -9,6 +9,8 @@
 <body>
 
 <nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<div th:replace="~{fragments/fragment-modal-global :: global-div-form}"></div>
+
     <div style="display: block; padding: 10px">
 
         <div style="border: 0px solid #6f42c1; background-color: #f5f5f5; margin-bottom: 2px;" th:object="${app}">
@@ -67,11 +69,21 @@
                     <td id="field_app_id" th:data-id="*{id}" hidden></td>
                     <td style="width: 150px; font-weight: bold">Тип документу:</td> <td style="width: 250px;">---</td>
                     <td style="width: 160px; font-weight: bold">Вантажовідправник:</td> <td th:text="${sender_obj}"></td>
+                    <td></td>
+                    <td></td>
+                    <td style="vertical-align: top" rowspan="5">
+                        <div class="container-fluid p-0 d-flex flex-column align-items-end gap-1">
+                            <button th:class="${app.committedAt != null ? 'btn btn-outline-secondary disabled w-50' : 'btn btn-outline-secondary w-50'}"
+                                    th:data-url="@{/akt-accept-transfer/{id}/getUnitsList(id=${app.id})}" onclick="showModalDiv(this)">+ додати безномерне майно</button>
+
+                            <button th:class="${app.committedAt != null ? 'btn btn-outline-secondary disabled w-50' : 'btn btn-outline-secondary w-50 open-popup-add-numeric-units'}"
+                                    th:data-url="@{/unit/form-add-numeric-unit}" >+ додати номерне майно</button>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td style="font-weight: bold">Номер документу:</td> <td th:text="*{number}"> </td>
                     <td style="width: 120px; font-weight: bold">Представник:</td> <td th:text="*{responsiblePersonSender}"></td>
-
                 </tr>
                 <tr>
                     <td style="font-weight: bold">Дата документа:</td> <td th:text="*{documentDate}">  </td>
@@ -81,42 +93,15 @@
                     <td style="font-weight: bold">Дата операції:</td> <td th:text="*{operationDate}"> </td>
                     <td style="font-weight: bold">Представник:</td> <td th:text="*{responsiblePersonReceiver}"></td>
                 </tr>
-
                 <tr>
-                    <td colspan="4" style="font-weight: bold" >Примітка: <span th:text="*{comments}"></span> </td>
+                    <td colspan="4" style="font-weight: bold;" >Примітка: <span th:text="*{comments}"></span> </td>
                 </tr>
             </table>
         </div>
 
         <div style="">
-            <!------------------------------------------------------------------------------------[ functions panel ]-->
-            <div style="border-top: 1px solid #0a3622;border-bottom: 1px solid #0a3622; background-color: #cff4fc; display: flex; padding: 5px; margin-bottom: 2px">
-                <div>
-                    <button th:class="${app.committedAt != null ? 'btn btn-outline-secondary disabled' : 'btn btn-outline-secondary'}"
-                            th:data-url="@{/akt-accept-transfer/{id}/getUnitsList(id=${app.id})}" onclick="showModalDiv(this)">+ додати майно</button>
-                </div>
 
-<!--                <div class="d-flex ms-auto gap-2">-->
-
-<!--                        <a th:if="${firstPDF != null}" th:href="@{/uploads/{id}/download(id=${firstPDF.id})}"-->
-<!--                            class="btn btn-outline-danger p-1" title="завантажити pdf документу"> <i class="bi bi-file-earmark-pdf-fill fs-4 lh-1"></i>-->
-<!--                            &#11015;-->
-<!--                        </a>-->
-<!--                        <a th:href="@{/documents/{id}/pdf(id=${app.id})}"-->
-<!--                        target="_blank" class="btn btn-outline-success p-1 disabled" title="завантажити excel документу"> <i class="bi bi-file-earmark-excel-fill fs-4 lh-1"></i>-->
-<!--                            XLS-->
-<!--                        </a>-->
-
-<!--                        <button class="btn btn-outline-secondary" type="button" onclick="showModalCommonDiv(this)">список файлів</button>-->
-<!--                        <button type="button" class="btn btn-outline-primary"-->
-<!--                                th:data-doc-id="${app.id}"-->
-<!--                                th:data-doc-type="${app.documentsType.id}"-->
-<!--                                onclick="openPdfModal(this)">список файлів</button>-->
-<!--                </div>-->
-            </div>
-
-
-            <!-----------------------------------------------------------------------------------------[ body panel ]-->
+            <!-----------------------------------------------------------------------------------[ body units panel ]-->
             <div>
                 <table class="table table-hover table-bordered small text-center">
                     <thead class="table-info">

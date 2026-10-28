@@ -121,7 +121,7 @@ public class AktAcceptanceTransferController {
 
     @PostMapping("/ajax/addUnitToApp")
     public ResponseEntity<String> addUnitToAPP(@RequestBody AATUnitDTO unitDTO){
-
+        System.out.println("--------------->" + getClass().toString());
         tempAPP = aktAcceptanceTransferRepository.getReferenceById(unitDTO.getIdApp());
         aatu = new AktAcceptanceTransferUnits();
         aatu.setAktAcceptanceTransfer(tempAPP);
@@ -165,7 +165,7 @@ public class AktAcceptanceTransferController {
         aatu = aktAcceptanceTransferUnitsRepository.save(aatu);
 
         return ResponseEntity.ok("ok");
-    }
+    }//end method
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

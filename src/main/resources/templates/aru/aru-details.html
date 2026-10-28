@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>№...</title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+
+    <style>
+        tbody { counter-reset: rowNumber; }
+        tbody tr { counter-increment: rowNumber; }
+        tbody tr .row-number::before { content: counter(rowNumber); }
+    </style>
+</head>
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<!--<div th:replace="~{fragments/fragment-modal-global :: global-div-form}"></div>-->
+
+<div class="container-fluid mt-1">
+    <div th:object="${atc}">
+        <table class="table table-sm small" style="background-color: #fff5e6">
+            <tbody>
+            <tr th:class="${atc.committedAt != null ? 'commited-done-row' : 'commited-none-row'}" class="commited-done-row">
+                <td colspan="2">
+                    <div style="display: inline-block;">
+                        <img src="/images/doc_icon_small_01.png" style="width: 30px; height: auto; margin-top: -17px" alt="">
+                    </div>
+                    <span th:text="${'Акт технічного стану №' + atc.number + ' від ' + #temporals.format(atc.documentDate, 'dd.MM.yyyy')}"></span>
+                </td>
+
+                <td colspan="4">
+                    <div class="d-flex justify-content-end gap-2">
+                        <a th:href="@{/documents/{id}/pdf(id=${atc.id})}"
+                           target="_blank" class="btn btn-outline-success d-inline-flex align-items-center justify-content-center"
+                           style="width: 40px; height: 40px;" title="завантажити excel"> <i class="bi bi-file-earmark-excel-fill fs-4 lh-1"></i>
+                        </a>
+                        <a th:href="@{/documents/{id}/pdf(id=${atc.id})}"
+                           target="_blank" class="btn btn-outline-danger d-inline-flex align-items-center justify-content-center"
+                           style="width: 40px; height: 40px;" title="завантажити pdf"> <i class="bi bi-file-earmark-pdf-fill fs-4 lh-1"></i>
+                        </a>
+
+                        <a th:href="@{/documents/{id}/pdf(id=${atc.id})}"
+                           target="_blank"
+                           th:class="${atc.committedAt != null ? 'btn btn-outline-warning d-inline-flex align-items-center justify-content-center disabled' : 'btn btn-outline-warning d-inline-flex align-items-center justify-content-center'}"
+                           style="width: 40px; height: 40px; padding: 0;" title="редагувати документ"> <i class="bi bi-pen-fill fs-4 lh-1"></i>
+                        </a>
+
+                        <button
+                                th:data-url="@{/atc/{id}(id=${atc.id})}"
+                                th:data-redir-url="@{/atc/list}"
+                                th:class="${atc.committedAt != null ? 'btn btn-outline-dark d-inline-flex align-items-center justify-content-center disabled' : 'btn btn-outline-dark d-inline-flex align-items-center justify-content-center'}"
+                                onclick="deleteItem(this)"
+                                title="анулювати документ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                            </svg>
+                        </button>
+
+                        <button
+                                th:data-url="@{/atc/{id}(id=${atc.id})}"
+                                th:data-redir-url="@{/atc/list}"
+                                th:class="${atc.committedAt != null ? 'btn btn-outline-danger d-inline-flex align-items-center justify-content-center disabled' : 'btn btn-outline-danger d-inline-flex align-items-center justify-content-center'}"
+                                onclick="deleteItem(this)">
+                            <i class="bi bi-file-earmark-x-fill fs-4 lh-1"></i>
+                        </button>
+
+
+                        <button th:class="${atc.committedAt != null ? 'btn btn-success d-inline-flex align-items-center justify-content-center' : 'btn btn-warning d-inline-flex align-items-center justify-content-center' }"
+                                th:title="${atc.committedAt != null ? 'проведено' : 'розпроведено'}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#commitModal">
+                            <i th:class="${atc.committedAt != null ? 'bi bi-bag-check-fill fs-6 lh-1' : 'bi bi-bag-dash fs-6 lh-1'}"></i>
+                        </button>
+
+                        <!--                                <button class="btn btn-outline-secondary" type="button" onclick="showModalCommonDiv(this)">список файлів</button>-->
+
+                        <button type="button" class="btn btn-outline-primary"
+                                th:data-doc-id="${atc.id}"
+                                th:data-doc-type="${atc.documentsType.id}"
+                                th:data-first-pdf="${firstPDF != null ? true : false}"
+                                th:data-first-pdf-id="${firstPdf != null ? invoice.fileId : null}"
+                                onclick="openPdfModal(this)">список файлів
+                        </button>
+
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#id-div-modal-document-history">
+                            історія проведень
+                        </button>
+
+                    </div>
+                </td>
+            </tr>
+            <tr><td colspan="8"></td></tr>
+            <tr>
+                <th style="width: 120px">Вантажовідправник:</th>
+                <td style="width: 500px" th:text="${sender_obj}"></td>
+                <th style="width: 170px">Відповідальна особа:</th>
+                <td style="width: 300px" th:text="${atc.responsiblePersonSender}"></td>
+                <th  style="width: 150px">Дата документу:</th>
+                <td  style="width: 130px" th:text="${#temporals.format(atc.documentDate, 'dd.MM.yyyy HH:mm') }">01/01/2026</td>
+                <!--                        <td  style="width: 2px; text-align: center; padding: 0; border-left: 1px solid black" rowspan="4"></td>-->
+
+                <!--                        <td rowspan="4" style="padding: 0;">-->
+                <!--                            <div class="container-fluid p-0">-->
+                <!--                                <div class="row">-->
+                <!--                                    <div class="input-group mb-4">-->
+                <!--                                        <input type="hidden" th:field="*{id}">-->
+                <!--                                        <input type="hidden" th:field="*{number}">-->
+
+                <!--                                        <input type="file" class="form-control" name="file-name" accept="application/pdf" id="file-name" aria-describedby="inputGroupFileAddon04" aria-label="виберіть файл">-->
+                <!--                                        <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04" onclick="loadFilePDF()">завантажити</button>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
+
+                <!--                            </div>-->
+                <!--                        </td>-->
+            </tr>
+            <tr>
+                <th>Вантажоодержувач:</th>
+                <td th:text="${receiver_obj}"></td>
+                <th>Відповідальна особа:</th>
+                <td th:text="${atc.responsiblePersonReceiver}"></td>
+                <th>Дата операції:</th>
+                <td th:text="${#temporals.format(atc.operationDate, 'dd.MM.yyyy HH:mm') }"></td>
+            </tr>
+            <tr>
+                <th>Підстава:</th>
+                <td colspan="3" th:text="${atc.reason}"></td>
+                <th>Дійсний до:</th>
+                <td th:text="${#temporals.format(atc.expiresAt, 'dd.MM.yyyy HH:mm') }"></td>
+            </tr>
+            <tr>
+                <th>Примітка:</th>
+                <td colspan="3" th:text="${atc.comments}"></td>
+                <th>Дата проведення:</th>
+                <td th:text="${atc.committedAt != null ? #temporals.format(atc.committedAt, 'dd.MM.yyyy HH:mm') : 'не проведено' }"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- -----------------------------------------------------------------------------------------[ short funcs panel ]- -->
+<div style="border-top: 1px solid #0a3622; padding-top: 5px; padding-bottom: 5px; background-color: #cff4fc; margin: 5px">
+    <!--         th:class="${atc.committedAt != null ? 'commited-done-row' : 'commited-none-row'}"-->
+
+
+    <div class="container-fluid d-flex">
+
+        <button class="btn btn-secondary" onclick="showModalDiv(this)" th:disabled="${atc.committedAt != null? 'true' : 'false'}">+ додати майно</button>
+
+        <div class="d-flex ms-auto gap-2">
+            <span class="input-group-text" th:text="${'кількість позицій: ' + moves_list.size()}"></span>
+            <span class="input-group-text" th:text="${'кількість одиниць майна: ' + totalQuantity }"></span>
+            <span class="input-group-text" th:text="${'загальна сума: ' + #numbers.formatDecimal(totalSum, 3, 'WHITESPACE', 5, 'POINT')}"></span>
+            <select id="denoms" class="form-select" disabled>
+                <option value="0">список номенклатур</option>
+                <!--                        <option th:each="denom: ${moves_list}" th:value="${denom.denomination.id}" th:text="${denom.denomination.denominationName}"></option>-->
+            </select>
+        </div>
+
+    </div>
+</div>
+<!--{ commit / uncommit modal div ]-->
+    <div th:replace="~{fragments/fragment-modal-commit :: confirmModal(
+                                        'commitModal',
+                                        'Проведення документу №' + ${atc.number} + ' від ' + ${#temporals.format(atc.documentDate,'dd.MM.YYYY') },
+                                        'Вказати дату і час проведення документу або залишити пустим для розпроведення:',
+                                        @{/commit/doc-type},
+                                        ${atc.documentsType.id},
+                                        ${atc},
+                                        ${atc.committedAt},
+                                        '/atc/'
+                    )}">
+    </div>
+<!--[ div document history list ]-->
+    <div th:replace="~{fragments/fragment-modal-commit :: div-modal-document-history-list(history_list = ${history_list})}"></div>
+<!--[ goods list table body ]-->
+<div style="padding: 5px; display: flex; justify-content: center">
+    <table class="table table-hover table-bordered table-sm small">
+        <thead class="table-info">
+        <tr>
+            <th style="width: 40px; text-align: center">№</th>
+            <th>найменування</th>
+            <th style="width: 150px; text-align: center">номенклатура</th>
+            <th style="width: 150px; text-align: center">кількість</th>
+            <th style="width: 100px; text-align: center">ціна</th>
+            <th style="width: 150px; text-align: center">сума</th>
+            <th style="width: 100px; text-align: center">картка</th>
+            <th style="width: 55px; text-align: center">к-рія</th>
+            <th style="width: 50px; text-align: center">дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(moves_list)}">
+            <td colspan="9" style="text-align: center; font-weight: bold; font-size: 20px">Майно відсутнє</td>
+        </tr>
+        <tr th:each="mov, stat: ${moves_list}" th:unless="${#lists.isEmpty(moves_list)}">
+            <td th:data-move-id="${mov.id}" class="row-number" style="text-align: center"></td>
+            <td th:text="${mov.denominationTitle}"></td>
+            <td th:text="${mov.nomenclatureTitle}" style="text-align: center"></td>
+            <td th:text="${mov.quantity}" style="text-align: center"></td>
+            <td th:text="${#numbers.formatDecimal(mov.price, 0, 'WHITESPACE', 2, 'COMMA') }" style="text-align: right"></td>
+            <td th:text="${#numbers.formatDecimal(mov.price * mov.quantity, 0, 'WHITESPACE', 2, 'COMMA') }" style="text-align: right"></td>
+            <td style="text-align: center">
+                <a th:href="${'/cards/' + mov.cardID + '/details'}"
+                   th:text="${#numbers.formatInteger(mov.cardNumber, 5) }"
+                   class="link-primary text-decoration-underline" ></a>
+            </td>
+            <td th:text="${mov.category}" style="text-align: center"></td>
+            <td class="p-1">
+                <div class="input-group input-group-sm w-100 text-center">
+                    <button class="btn btn-outline-secondary deleteUnitFromDocument"
+                            th:data-mov-id="${mov.id}" th:data-doc-type="7" th:data-url="@{/atc/units/{id}(id = ${mov.id}) }"
+                            th:disabled="${atc.committedAt != null ? 'true' : 'false'}">&#x1F5D1;</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-------------------------------------------------------------------------------[ modal-div -> adding goods to ATC ]-->
+<div id="myModal" class="modal-div">
+    <div class="modal-div-content">
+
+        <div style="background-color:rgba(7,15,241,0.93); color: white; display: flex; align-items: center; padding: 5px; gap: 10px;">
+            <div style="width: 100%">
+                <span> Акт технічного стану № </span>
+                <input type="hidden" id="field_atc_id" th:value="${atc.id}">
+                <span th:text="*{atc.number}"></span> від
+                <span th:text="*{#temporals.format(atc.documentDate,'dd.MM.yyyy')}"></span>
+                |
+                <span>sender</span>
+                <span style="font-size: 20px">&#8680</span>
+                <span>в/ч А0998</span>
+            </div>
+
+            <span class="close-div">&times;</span>
+        </div>
+
+        <div class="row p-2">
+            <div class="col-5">
+                <div style="display: flex; gap: 5px">
+                    <select id="denominationList001" >
+                        <option th:each="denom: ${denomination_list}"
+                                th:value="${denom.denominationId}"
+                                th:text="${denom.denominationName}">
+                        </option>
+                    </select>
+                    <div class="input-group input-group-sm w-25">
+                        <input id="field_denom_id" type="text" class="form-control text-center" >
+                        <input id="field_nomencl_id" type="text" class="form-control text-center" >
+                    </div>
+                </div>
+                <script>
+
+                    $('#denominationList001').select2({
+                        width: '100%'
+                        // data: dataArr,
+                        // dropdownParent: $("#myModal")
+                    }).on('select2:select', async function (e) {
+                        $('#tableCardBody001').empty();
+                        let data = e.params.data;
+                        try{
+                            $('#field_denom_id').val(data.id)
+                            const response = await fetch(`/cards/ajax/list?denom_id=${data.id}`);
+                            if(!response.ok){ throw new Error(`HTTP ${response.status}`); }
+
+                            const  dataRes = await response.json();
+                            let htmlRes = "";
+                            if (dataRes.length === 0){
+                                htmlRes =`<tr> <td colspan="9" style="text-align: center; font-weight: bold;"> карток не знайдено </td> </tr>`;
+                            }else {
+                                dataRes.forEach(card => {
+                                    htmlRes += `<tr>
+                                                    <td style="text-align: center"> ${String(card.cardNumber).padStart(5,'0') } </td>
+                                                    <td> ${card.nomenclatureName !=null ? card.nomenclatureName : '-'} </td>
+                                                    <td> --- </td>
+                                                    <td style="text-align: center"> ${card.qtyPS != null ? card.qtyPS : ''} </td>
+                                                    <td style="text-align: center"> ${card.qtyBTS !=null ? card.qtyBTS : ''} </td>
+                                                    <td style="text-align: center"> ${card.qtyBTS + card.qtyPS} </td>
+                                                    <td style="text-align: right"> ${formatterPrice.format(card.price)} </td>
+                                                    <td style="text-align: center"> ${card.category} </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm m-0">
+                                                            <input class="form-control border-dark" type="number" step="1" min="0" max="${card.qtyBTS + card.qtyPS}" value="3" id="field_qty_needed_${card.id}">
+                                                            <button class="btn btn-outline-secondary add-unit"
+                                                                    data-card-id="${card.id}"
+                                                                    data-card-number="${card.cardNumber}"
+                                                                    data-card-price="${card.price}"
+                                                                    data-nomenclature-id = "${card.nomenclatureID}"
+                                                                    data-nomenclature-title = "${card.nomenclatureName !=null ? card.nomenclatureName : '-'}">
+                                                                     <i class="bi bi-arrow-right-circle-fill"></i>
+                                                                     </button>
+                                                        </div>
+                                                    </td>
+                                               </tr>`;
+                                });
+                            }
+                            $('#tableCardBody001').html(htmlRes)
+
+
+                        }catch (err){ console.log(err); }
+
+                    });
+
+                </script>
+
+                <table class="table table-bordered table-hover small mt-1 p-0">
+                    <thead>
+                    <tr>
+                        <th style="width: 90px; text-align: center">картка №</th>
+                        <th>номенклатура</th>
+                        <th>зав-кий №</th>
+                        <th>пс</th>
+                        <th>снсо</th>
+                        <th>к-сть</th>
+                        <th>ціна</th>
+                        <th style="width: 60px; text-align: center">к-рія</th>
+                        <th style="width: 120px">к-сть в д-ті</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="tableCardBody001"> </tbody>
+                </table>
+
+            </div>
+            <div class="col-7">
+                <!--                    -------------------------------------------------------[ temp table ]-->
+                <div style="height: 500px; border-left: 1px solid #f0f0f0; border-right: 1px solid #f0f0f0">
+                    <table class="table table-bordered table-hover small mb-0">
+                        <thead>
+                        <tr>
+                            <th style="width: 50px; text-align: center">№</th>
+                            <th>найменування</th>
+                            <th style="width: 150px">номенклатура</th>
+                            <th style="text-align: center; width: 70px">к-сть</th>
+                            <th style="text-align: center; width: 100px">ціна</th>
+                            <th style="text-align: center; width: 50px">к-я</th>
+                            <th style="text-align: center; width: 70px">картка</th>
+                            <th style="text-align: center; width: 40px">дії</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tempTableBody001" class="tempTableBody"> </tbody>
+                    </table>
+                </div>
+
+                <table class="table table-bordered small mt-0 ">
+                    <tfoot id="tempTableFooter">
+                    <tr>
+                        <td>Всього:</td>
+                        <td id="totalSumQty" style="text-align: center; width: 70px">0</td>
+                        <td id="totalSumPrice" style="text-align: center; width: 100px">1 234,00</td>
+                        <td style="width: 160px"></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="col justify-content-center">
+                <button type="submit"  class="btn btn-outline-secondary">зберегти</button>
+                <button type="button" class="btn btn-outline-secondary">close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------------------------------------------------------------------------------[modal div add pdf's to document]-->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content" id="pdfModalContent">
+            <!-- Thymeleaf fragment will be inserted here -->
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

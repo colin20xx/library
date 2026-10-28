@@ -6,6 +6,8 @@ import net.nco.sklad.entity.Nomenclature;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface NomenclatureRepository extends JpaRepository<Nomenclature, Long> {
@@ -22,6 +24,6 @@ public interface NomenclatureRepository extends JpaRepository<Nomenclature, Long
     List<Object> findAllNomenclaturesByDenomination(String denominationTitle);
 
     @Query(value = "select n.id, n.nomenclature_name, n.denomination_id from sklad.nomenclatures n where denomination_id = :denominationId", nativeQuery = true)
-    List<NomenclatureDTO> findAllNomenclaturesByDenominationId(Integer denominationId);
+    ArrayList<NomenclatureDTO> findAllNomenclaturesByDenominationId(Long denominationId);
 
 }

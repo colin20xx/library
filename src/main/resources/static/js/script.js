@@ -926,6 +926,7 @@ async function showModalDiv(btn) {
     if (res.ok) {
 
         addListToTempTableApp(await res.json(), $('#tempTableBodyAPP'))
+
         modal.style.display = 'block';
         span.onclick = function () {
             modal.style.display = 'none';
@@ -941,7 +942,6 @@ async function showModalDiv(btn) {
 
     btn.disabled = false;
 }//end function
-
 
 
 // ------------------------------------------------------------------------------------[ div modal popup card edit]-----

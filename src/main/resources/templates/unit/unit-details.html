@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'№ ' + unit.serialNumber}"></title>
+    <th:block th:replace="~{fragments.html :: baseContent}"></th:block>
+
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="../../static/css/flatpickr.min.css">
+    <link rel="stylesheet" href="../../static/css/select2.min.css">
+    <link rel="stylesheet" href="../../static/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../static/css/bootstrap-icons.css">
+
+    <script src="../../static/js/bootstrap.bundle.min.js"> </script>
+    <script src="../../static/js/jquery-4.0.0.min.js"> </script>
+    <script src="../../static/js/script.js"> </script>
+    <script src="../../static/js/flatpickr.min.js"> </script>
+    <script src="../../static/js/select2.min.js"> </script>
+
+    <style>
+        tbody { counter-reset: rowNumber; }
+        tbody tr { counter-increment: rowNumber; }
+        tbody tr .row-number::before { content: counter(rowNumber); }
+    </style>
+</head>
+<body>
+
+<nav th:replace="~{fragments.html :: main_menu}"> </nav>
+<div th:replace="~{fragments/fragment-modal-global :: global-div-form}"></div>
+
+<nav aria-label="breadcrumb ">
+    <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item small"><a href="#">Home</a></li>
+        <li class="breadcrumb-item small"><a href="#">Library</a></li>
+        <li class="breadcrumb-item small active" aria-current="page">Data</li>
+    </ol>
+</nav>
+
+    <div class="container-fluid">
+
+        <div class="row mb-1 p-2 gap-1">
+            <!-----------------------------------------------------------------------------------[ div photo column ]-->
+            <div class="col-3">
+                <div class="row border border-warning bg-warning-subtle rounded mb-2">
+                    photo <p></p>
+                    photo <p></p>
+                    photo <p></p>
+                    photo <p></p>
+                    photo <p></p>
+                </div>
+                <div class="row border-bottom border-secondary bg-body-secondary mb-2 small">
+                    <div class="col-8">заводський/серійний номер:</div> <div class="col">1234556</div>
+                </div>
+                <div class="row border-bottom border-secondary bg-body-secondary mb-2 small">
+                    <div class="col-8">категорія:</div> <div class="col">2</div>
+                </div>
+                <div class="row border-bottom border-secondary bg-body-secondary mb-2 small">
+                    <div class="col-8">рік:</div> <div class="col">2020</div>
+                </div>
+                <div class="row border-bottom border-secondary bg-body-secondary mb-2 small">
+                    <div class="col-8">ціна:</div> <div class="col">1 234 567,00</div>
+                </div>
+                <div class="row border-bottom border-secondary bg-body-secondary mb-2 small">
+                    <div class="col-8">підрозділ за документами:</div> <div class="col">БМЗ РЗВТМПММ</div>
+                </div>
+                <div class="row border-bottom border-secondary bg-body-secondary mb-2 small">
+                    <div class="col-8">поточний підрозділ:</div> <div class="col">БМЗ РЗВТМПММ</div>
+                </div>
+                <div class="row border-bottom border-secondary bg-body-secondary mb-2 small">
+                    <div class="col-8">дата створення:</div> <div class="col">01.01.2026 12:00</div>
+                </div>
+            </div>
+
+            <!-----------------------------------------------------------------------------------------[ UNIT TITLE ]-->
+            <div class="col">
+
+                <div class="row">
+                    <h5 class="border-bottom border-secondary bg-body-secondary p-2" th:text="${unit.denomination.denominationName}">Універсальний горизонтальний гідравлічний прес URF-PRESS для монтажу/демонтажу VFI-Flat вставок діаметром до 1000мм</h5>
+                </div>
+
+                <div class="row gap-1">
+                    <div class="col-4 border-bottom border-secondary bg-body-secondary"> <b>номенклатура:</b> <span th:text="${unit.nomenclature != null ? unit.nomenclature.nomenclatureName : '-'}"></span> </div>
+                    <div class="col border-bottom border-secondary bg-body-secondary">належить до: [ -------------------- ]</div>
+                </div>
+
+                <!--------------------------------------------------------------------------------[ functions panel ]-->
+                <div class="row bg-body-secondary mt-2 p-2">
+                    <div class="col">info</div>
+                    <div class="col d-flex justify-content-end gap-1">
+                        <button class="btn btn-outline-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                            </svg>
+                        </button>
+
+                        <button class="btn btn-outline-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filetype-xls" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM6.472 15.29a1.2 1.2 0 0 1-.111-.449h.765a.58.58 0 0 0 .254.384q.106.073.25.114.143.041.319.041.246 0 .413-.07a.56.56 0 0 0 .255-.193.5.5 0 0 0 .085-.29.39.39 0 0 0-.153-.326q-.152-.12-.462-.193l-.619-.143a1.7 1.7 0 0 1-.539-.214 1 1 0 0 1-.351-.367 1.1 1.1 0 0 1-.123-.524q0-.366.19-.639.19-.272.527-.422.338-.15.777-.149.457 0 .78.152.324.153.5.41.18.255.2.566h-.75a.56.56 0 0 0-.12-.258.6.6 0 0 0-.247-.181.9.9 0 0 0-.369-.068q-.325 0-.513.152a.47.47 0 0 0-.184.384q0 .18.143.3a1 1 0 0 0 .405.175l.62.143q.326.075.566.211a1 1 0 0 1 .375.358q.135.222.135.56 0 .37-.188.656a1.2 1.2 0 0 1-.539.439q-.351.158-.858.158-.381 0-.665-.09a1.4 1.4 0 0 1-.478-.252 1.1 1.1 0 0 1-.29-.375m-2.945-3.358h-.893L1.81 13.37h-.036l-.832-1.438h-.93l1.227 1.983L0 15.931h.861l.853-1.415h.035l.85 1.415h.908L2.253 13.94zm2.727 3.325H4.557v-3.325h-.79v4h2.487z"/>
+                            </svg>
+                        </button>
+
+                        <button class="btn btn-outline-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <!---------------------------------------------------------------------------[ table documents list ]-->
+                <div class="row mt-2">
+                    <table class="table table-bordered table-hover small">
+                        <thead class="table-info small">
+                        <tr>
+                            <th>№ з/п</th>
+                            <th>документ</th>
+                            <th>номер</th>
+                            <th>дата</th>
+                            <th>проведено</th>
+                            <th>підрозділ</th>
+                            <th>категорія</th>
+                            <th>ціна</th>
+                            <th>примітка</th>
+                        </tr>
+                        </thead>
+                        <tbody class="small">
+                        <tr>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

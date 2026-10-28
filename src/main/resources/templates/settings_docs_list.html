@@ -36,6 +36,7 @@
                         <th>повна назва</th>
                         <th>скорочена назва</th>
                         <th>eng</th>
+                        <th>eng_short</th>
                         <th>термін дії(дні)</th>
                         <th style="width: 50px; text-align: center">картки</th>
                         <th>операції</th>
@@ -46,6 +47,7 @@
                         <td> <input type="text" th:value="${doc.getTitle()}" readonly style="width: 100%" /></td>
                         <td> <input type="text" th:value="${doc.titleShort}" readonly style="width: 100%" /></td>
                         <td> <input type="text" th:value="${doc.englishTitle}" readonly style="width: 100%" /></td>
+                        <td> <input type="text" th:value="${doc.englishShortTitle}" readonly style="width: 100%" /></td>
                         <td> <input type="text" th:value="${doc.getExpireDays()}"> </td>
 
                         <td style="border-left: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0">
